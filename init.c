@@ -8,10 +8,16 @@
 
 #include "config.h"
 
-void listener_cb(struct evconnlistener* listener, evutil_socket_t new_soclet_fd,\
+void listener_http_cb(struct evconnlistener* listener, evutil_socket_t new_soclet_fd,\
                  struct sockaddr* saddr, int socklen, void* arg)
 {
-  printf("hello junliang.\n");
+  printf("hello http junliang.\n");
+}
+
+void listener_tcp_cb(struct evconnlistener* listener, evutil_socket_t new_soclet_fd,\
+                 struct sockaddr* saddr, int socklen, void* arg)
+{
+  printf("hello tcp junliang.\n");
 }
 
 int main(int argc, char const *argv[])
@@ -30,9 +36,18 @@ int main(int argc, char const *argv[])
   sock_in.sin_family = AF_INET;
   sock_in.sin_addr.s_addr = htonl(INADDR_ANY);
   sock_in.sin_port = htons(HTTP_PORT);
-  listener = evconnlistener_new_bind(listen_base, listener_cb, (char*)"hello http",
+  listener = evconnlistener_new_bind(listen_base, listener_http_cb, (char*)"hello http",
                                     LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
                                     (struct sockaddr*)&sock_in, sizeof(sock_in) );
+
+  memset(&sock_in, 0, sizeof(sock_in));
+  sock_in.sin_family = AF_INET;
+  sock_in.sin_addr.s_addr = htonl(INADDR_ANY);
+  sock_in.sin_port = htons(TCP_PORT);
+  listener = evconnlistener_new_bind(listen_base, listener_tcp_cb, (char*)"hello tcp",
+                                    LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
+                                    (struct sockaddr*)&sock_in, sizeof(sock_in) );
+
   event_base_dispatch(listen_base);
 
   evconnlistener_free(listener);
