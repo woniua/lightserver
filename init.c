@@ -6,6 +6,7 @@
 #include <event2/event.h>
 #include <event2/listener.h>
 
+#include "list.h"
 #include "config.h"
 
 void listener_http_cb(struct evconnlistener* listener, evutil_socket_t new_soclet_fd,\
@@ -25,6 +26,13 @@ int main(int argc, char const *argv[])
   struct event_base*      listen_base;
   struct evconnlistener*  listener;
   struct sockaddr_in      sock_in;
+
+///////////////////////////TEST////////////////////////////
+uint32_t len = 0;
+listCreate(&list, 100);
+listLength(list, &len);
+printf("====%d\n", len);
+///////////////////////////TEST////////////////////////////
 
   listen_base = event_base_new();
   if(!listen_base){
