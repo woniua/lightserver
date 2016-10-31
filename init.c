@@ -45,7 +45,7 @@ printf("====%d\n", len);
   sock_in.sin_addr.s_addr = htonl(INADDR_ANY);
   sock_in.sin_port = htons(HTTP_PORT);
   listener = evconnlistener_new_bind(listen_base, listener_http_cb, (char*)"hello http",
-                                    LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
+                                     LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
                                     (struct sockaddr*)&sock_in, sizeof(sock_in) );
 
   memset(&sock_in, 0, sizeof(sock_in));
@@ -53,7 +53,7 @@ printf("====%d\n", len);
   sock_in.sin_addr.s_addr = htonl(INADDR_ANY);
   sock_in.sin_port = htons(TCP_PORT);
   listener = evconnlistener_new_bind(listen_base, listener_tcp_cb, (char*)"hello tcp",
-                                    LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
+                                     LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
                                     (struct sockaddr*)&sock_in, sizeof(sock_in) );
 
   event_base_dispatch(listen_base);

@@ -1,2 +1,17 @@
 1.安装libevent
 ====================
+  (1).下载libevent
+      登录github，下载Libevent-release-2.0.22-stable
+  (2).libevent安装环境准备
+      $ sudo apt-get install automake
+      $ sudo apt-get install libtool-bin
+  (3).安装libevent
+      $ unzip Libevent-release-2.0.22-stable
+      $ cd Libevent-release-2.0.22-stable
+      $ ./autogen.sh
+      $ ./configure
+      $ make
+      $ make verify   # (optional)
+      $ sudo make install
+2.编译lightserver
+====================
