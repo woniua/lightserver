@@ -27,7 +27,7 @@ typedef struct node {
 /* 定义链表指针 */
 EXT_LIST listNode_t *list;
 
-/* 公有函数定义 */
+/* 公有函数声明 */
 EXT_LIST  listStatus  listCreate(listNode_t **list, uint32_t n);    //创建一个新的线性表
 EXT_LIST  listStatus  listClear(listNode_t *list);   //清空线性表
 EXT_LIST  listStatus  listIsEmpty(listNode_t *list); //检查线性表是否为空

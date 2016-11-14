@@ -1,6 +1,6 @@
 SRC     = *.c *.h
 TARGET  = lightserver
-LIB     = -levent
+LIB     = -levent -lpthread
 
 $(TARGET):$(SRC)
 	gcc -o $(TARGET) $(SRC) $(LIB)
