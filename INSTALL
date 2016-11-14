@@ -11,7 +11,8 @@
       $ ./autogen.sh
       $ ./configure
       $ make
-      $ make verify   # (optional)
+      $ make verify   #(optional)
       $ sudo make install
 2.编译lightserver
 ====================
+  $ make

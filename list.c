@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "list.h"
 
 listStatus  listCreate(listNode_t **list, uint32_t n)
@@ -116,8 +117,26 @@ listStatus  listInsertElem(listNode_t *list, uint32_t index, clientInfo_t elemen
   listLength(list, &length);
   if(index > length)return ERROR;
 
+  p = list ->next;
+  for(i = 0; i < index; i++){
+    p = p ->next;
+  }
+  memcpy((void*)p, (const void*)&element, sizeof(clientInfo_t));
+
+  return SUCCESS;
 }
 listStatus  listDeleteElem(listNode_t *list, uint32_t index, clientInfo_t *element)
 {
+  listNode_t *p   = NULL;
+  uint32_t    length;
+  uint32_t    i;
 
+  //传参校验
+  listLength(list, &length);
+  if(index > length)return ERROR;
+
+  p = list ->next;
+  for(i = 0; i < index; i++){
+    p = p ->next;
+  }
 }

@@ -36,7 +36,7 @@ printf("====%d\n", len);
 
   listen_base = event_base_new();
   if(!listen_base){
-    fprintf(stderr, "Couldn't create an event_base:exiting\n");
+    fprintf(stderr, "Could not initialize libevent!\n");
     return -1;
   }
 
@@ -47,6 +47,10 @@ printf("====%d\n", len);
   listener = evconnlistener_new_bind(listen_base, listener_http_cb, (char*)"hello http",
                                      LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
                                     (struct sockaddr*)&sock_in, sizeof(sock_in) );
+  if(!listener){
+    fprintf(stderr, "Could not create a listener!\n");
+    return -1;
+  }
 
   memset(&sock_in, 0, sizeof(sock_in));
   sock_in.sin_family = AF_INET;
@@ -55,6 +59,10 @@ printf("====%d\n", len);
   listener = evconnlistener_new_bind(listen_base, listener_tcp_cb, (char*)"hello tcp",
                                      LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
                                     (struct sockaddr*)&sock_in, sizeof(sock_in) );
+  if(!listener){
+    fprintf(stderr, "Could not create a listener!\n");
+    return -1;
+  }
 
   event_base_dispatch(listen_base);
 
