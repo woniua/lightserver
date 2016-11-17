@@ -22,12 +22,38 @@ void help_disp(int expectArgc, int actualArgc)
   printf("%s\n", helpStr);
 }
 
+void* client_thread(void* arg)
+{
+  struct hostend*    he;
+  struct sockaddr_in server;
+
+  if((he = gethostname(argv[2]))==NULL){
+    fprintf(stderr, "gethostname() error!\n");
+    exit(-1);
+  }
+  
+}
+
+void client_thread_create(void)
+{
+  pthread_t thread_pid;
+
+  if(pthread_create(&thread_pid, NULL, client_thread, (void*)NULL)){
+    fprintf(stderr, "Could not create client thread!\n");
+    exit(-1);
+  }
+  pthread_detach(thread_pid);
+}
+
 int main(int argc, char const *argv[])
 {
   if(argc != 4){
     help_disp(4, argc);
   }
 
-  
+//创建ClientNum个线程
+for(int i = 0; i < atoi(argv[1]); i++){
+  client_thread_create();
+}
   return 0;
 }
