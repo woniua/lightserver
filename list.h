@@ -13,28 +13,32 @@
 /* 返回状态枚举值 */
 typedef enum{ERROR= 0, SUCCESS= !ERROR}listStatus;
 
-/* 客户端信息结构体 */
+/* 节点结构体数据域 */
 typedef struct{
   int a;
-}clientInfo_t;
+}nodeData_t;
 
 /* 链表节点结构体 */
-typedef struct node {
-  clientInfo_t   client;
+typedef struct node{
+  nodeData_t    data;
   struct node   *next;
-}listNode_t;
+}node_t;
 
-/* 定义链表指针 */
-EXT_LIST listNode_t *list;
+/* 定义链表头结点 */
+typedef struct{
+  int       length;    //链表长度
+  node_t    *node;
+}head_t;
+EXT_LIST head_t *head;
 
 /* 公有函数声明 */
-EXT_LIST  listStatus  listCreate(listNode_t **list, uint32_t n);    //创建一个新的线性表
-EXT_LIST  listStatus  listClear(listNode_t *list);   //清空线性表
-EXT_LIST  listStatus  listIsEmpty(listNode_t *list); //检查线性表是否为空
-EXT_LIST  listStatus  listLength(listNode_t *list, uint32_t *length); //获取线性表的长度
-EXT_LIST  listStatus  listGetElem(listNode_t *list, uint32_t index, clientInfo_t *element); //获取线性表第i位置的元素
-EXT_LIST  listStatus  listCheckElem(listNode_t *list, uint32_t *index, clientInfo_t element);//检查线性表中指定元素是否存在并返回元素的位置
-EXT_LIST  listStatus  listInsertElem(listNode_t *list, uint32_t index, clientInfo_t element);//向线性表中插入一个元素
-EXT_LIST  listStatus  listDeleteElem(listNode_t *list, uint32_t index, clientInfo_t *element);//从线性表中删除一个元素
+EXT_LIST  listStatus  listCreate(head_t **head, uint32_t n);    //创建一个新的线性表
+EXT_LIST  listStatus  listClear(head_t *head);   //清空线性表
+EXT_LIST  listStatus  listIsEmpty(head_t *head); //检查线性表是否为空
+EXT_LIST  listStatus  listLength(head_t *head, uint32_t *length); //获取线性表的长度
+EXT_LIST  listStatus  listGetNodeData(head_t *head, uint32_t index, nodeData_t *nodeData); //获取线性表第i位置的元素
+EXT_LIST  listStatus  listCheckNodeData(head_t *head, uint32_t *index, nodeData_t nodeData);//检查线性表中指定元素是否存在并返回元素的位置
+EXT_LIST  listStatus  listInsertNodeData(head_t *head, uint32_t index, nodeData_t nodeData);//向线性表中插入一个元素
+EXT_LIST  listStatus  listDeleteNodeData(head_t *head, uint32_t index, nodeData_t *nodeData);//从线性表中删除一个元素
 
 #endif /* #ifndef __LIST_H */

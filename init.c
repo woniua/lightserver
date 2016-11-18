@@ -13,8 +13,8 @@ int main(int argc, char const *argv[])
 {
   ///////////////////////////TEST////////////////////////////
   uint32_t len = 0;
-  listCreate(&list, 100);
-  listLength(list, &len);
+  listCreate(&head, 100);
+  listLength(head, &len);
   printf("====%d\n", len);
   ///////////////////////////TEST////////////////////////////
 
