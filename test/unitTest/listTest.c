@@ -9,66 +9,66 @@ int main(int argc, char const *argv[])
 {
   uint32_t     len = 0;
   uint32_t     index =0;
-  nodeData_t   nodedata={0};
-  listCreate(&head, 10);
-  listLength(&head, &len);
+  nodedata_t   nodedata={0};
+  list_create(&head, 0);
+  list_length(&head, &len);
   printf("====%d\n", len);
   printf("====%d\n", head.length);
   for(int i =1; i <=len; i++)
   {
-    listGetNodeData(&head, i,&nodedata);
+    list_get_nodedata(&head, i,&nodedata);
     printf("%d %d %d, \n", nodedata.a,nodedata.b,nodedata.c);
   }
   printf("\n");
 
-  //listDeleteNodeData test
-  listDeleteNodeData(&head, head.length,&nodedata);
+  //list_delete_nodedata test
+  list_delete_nodedata(&head, head.length,&nodedata);
   printf("delete:%d %d %d, \n", nodedata.a,nodedata.b,nodedata.c);
-  listLength(&head, &len);
+  list_length(&head, &len);
   printf("====%d\n", len);
   printf("====%d\n", head.length);
   for(int i =1; i <=head.length; i++)
   {
-    listGetNodeData(&head, i,&nodedata);
+    list_get_nodedata(&head, i,&nodedata);
     printf("%d %d %d, \n", nodedata.a,nodedata.b,nodedata.c);
   }
   printf("\n");
 
-  //listInsertNodeData test
+  //list_insert_nodedata test
   nodedata.a = 56;
   nodedata.b = 57;
   nodedata.c = 58;
-  listInsertNodeData(&head, 6,nodedata);
-  listLength(&head, &len);
+  list_insert_nodedata(&head, 1,nodedata);
+  list_length(&head, &len);
   printf("====%d\n", len);
   printf("====%d\n", head.length);
   for(int i =1; i <=head.length; i++)
   {
-    listGetNodeData(&head, i,&nodedata);
+    list_get_nodedata(&head, i,&nodedata);
     printf("%d %d %d, \n", nodedata.a,nodedata.b,nodedata.c);
   }
 
-  //listCheckNodeData test
+  //list_check_nodedata test
   nodedata.a = 56;
   nodedata.b = 57;
   nodedata.c = 58;
-  listCheckNodeData(&head, &index, nodedata);
-  listLength(&head, &len);
+  list_check_nodedata(&head, &index, nodedata);
+  list_length(&head, &len);
   printf("index: %d\n", index);
   printf("====%d\n", head.length);
   for(int i =1; i <=head.length; i++)
   {
-    listGetNodeData(&head, i,&nodedata);
+    list_get_nodedata(&head, i,&nodedata);
     printf("%d %d %d, \n", nodedata.a,nodedata.b,nodedata.c);
   }
 
-  if(listIsEmpty(&head)){
+  if(list_is_empty(&head)){
     printf("empty!\n");
   }else{
     printf("unempty!\n");
   }
-  listClear(&head);
-  if(listIsEmpty(&head)){
+  list_clear(&head);
+  if(list_is_empty(&head)){
     printf("empty!\n");
   }else{
     printf("unempty!\n");

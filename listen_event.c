@@ -11,11 +11,18 @@
 #include <event2/listener.h>
 
 #include "listen_event.h"
+#include "list.h"
 #include "config.h"
 
 void listener_http_cb(struct evconnlistener* listener, evutil_socket_t new_socket_fd,\
                       struct sockaddr* saddr, int socklen, void* arg)
 {
+  nodedata_t nodedata;
+
+  memcpy((void*)&nodedata, (const void*)saddr, sizeof(struct sockaddr));//saddr赋值
+  printf("ip:%s port:%d\n", inet_ntoa(nodedata.saddr.sin_addr), nodedata.saddr.sin_port);
+  list_insert_nodedata(&http_head, 1, nodedata);
+
   evutil_make_socket_nonblocking(new_socket_fd);//设置socket为非阻塞
   printf("hello http junliang.\n");
 }
@@ -23,6 +30,12 @@ void listener_http_cb(struct evconnlistener* listener, evutil_socket_t new_socke
 void listener_tcp_cb(struct evconnlistener* listener, evutil_socket_t new_socket_fd,\
                      struct sockaddr* saddr, int socklen, void* arg)
 {
+  nodedata_t nodedata;
+
+  memcpy((void*)&nodedata, (const void*)saddr, sizeof(struct sockaddr));//saddr赋值
+  printf("ip:%s port:%d\n", inet_ntoa(nodedata.saddr.sin_addr), nodedata.saddr.sin_port);
+  list_insert_nodedata(&tcp_head, 1, nodedata);
+
   evutil_make_socket_nonblocking(new_socket_fd);//设置socket为非阻塞
   printf("hello tcp junliang.\n");
 }

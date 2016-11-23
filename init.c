@@ -17,6 +17,10 @@ int main(int argc, char const *argv[])
   //打印libevent版本信息
   printf("Used libevent version: %s\n", event_get_version());
 
+  //建立存储连接信息的链表
+  list_create(&http_head, 0);
+  list_create(&tcp_head,  0);
+
   //创建http-event-dispath线程
   http_event_thread_create(1);
 

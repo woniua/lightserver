@@ -5,11 +5,11 @@
 #include <string.h>
 #include "list.h"
 
-listStatus  listCreate(head_t *head, uint32_t n)
+listStatus  list_create(head_t* head, uint32_t n)
 {
   int    i;
-  node_t *p = NULL;
-  node_t *r = NULL;
+  node_t* p = NULL;
+  node_t* r = NULL;
 
   head ->node = (node_t*)malloc(sizeof(node_t));
   if(head ->node == NULL)return ERROR;
@@ -21,12 +21,6 @@ listStatus  listCreate(head_t *head, uint32_t n)
     if(p == NULL)return ERROR;
 
     //----------节点数据赋值开始----------
-    // static int cnt  =123;
-    // static int cnt1 =12;
-    // static int cnt2 =23;
-    // p->data.a = cnt++;//节点内容赋值
-    // p->data.b = cnt1++;
-    // p->data.c = cnt2++;
     //----------节点数据赋值结束----------
     r ->next = p;
     r        = p;
@@ -36,10 +30,10 @@ listStatus  listCreate(head_t *head, uint32_t n)
   return SUCCESS;
 }
 
-listStatus  listClear(head_t *head)
+listStatus  list_clear(head_t* head)
 {
-  node_t *p = NULL;
-  node_t *q = NULL;
+  node_t* p = NULL;
+  node_t* q = NULL;
 
   p = head ->node ->next;
   while(p)
@@ -53,7 +47,7 @@ listStatus  listClear(head_t *head)
   return SUCCESS;
 }
 
-listStatus  listIsEmpty(head_t *head)
+listStatus  list_is_empty(head_t* head)
 {
   if(head ->node ->next == NULL)//链表为空
     return SUCCESS;
@@ -61,7 +55,7 @@ listStatus  listIsEmpty(head_t *head)
     return ERROR;
 }
 
-listStatus  listLength(head_t *head, uint32_t *length)
+listStatus  list_length(head_t* head, uint32_t* length)
 {
   node_t      *p  = NULL;
   uint32_t    cnt = 0;
@@ -76,7 +70,7 @@ listStatus  listLength(head_t *head, uint32_t *length)
   return SUCCESS;
 }
 
-listStatus  listGetNodeData(head_t *head, uint32_t index, nodeData_t *nodeData)
+listStatus  list_get_nodedata(head_t* head, uint32_t index, nodedata_t* nodedata)
 {
   node_t      *p = NULL;
   uint32_t    i;
@@ -89,11 +83,11 @@ listStatus  listGetNodeData(head_t *head, uint32_t index, nodeData_t *nodeData)
     p = p ->next;
   }
   //元素赋值
-  memcpy((void*)nodeData, (const void*)&(p ->data), sizeof(nodeData_t));
+  memcpy((void*)nodedata, (const void*)&(p ->data), sizeof(nodedata_t));
   return SUCCESS;
 }
 
-listStatus  listCheckNodeData(head_t *head, uint32_t *index, nodeData_t nodeData)
+listStatus  list_check_nodedata(head_t* head, uint32_t* index, nodedata_t nodedata)
 {
   node_t      *p  = NULL;
   uint32_t    cnt = 1;
@@ -103,7 +97,7 @@ listStatus  listCheckNodeData(head_t *head, uint32_t *index, nodeData_t nodeData
   while(p)
   {
     //判断给出的元素与链表当前节点数据区的值是否相等
-    result = memcmp((const void*)&nodeData, (const void*)&(p ->data), sizeof(nodeData_t));
+    result = memcmp((const void*)&nodedata, (const void*)&(p ->data), sizeof(nodedata_t));
     if(!result){
       *index = cnt;
       return SUCCESS;
@@ -115,7 +109,7 @@ listStatus  listCheckNodeData(head_t *head, uint32_t *index, nodeData_t nodeData
   return ERROR;
 }
 
-listStatus  listInsertNodeData(head_t *head, uint32_t index, nodeData_t nodeData)
+listStatus  list_insert_nodedata(head_t* head, uint32_t index, nodedata_t nodedata)
 {
   node_t      *p = NULL;
   node_t      *s = NULL;
@@ -131,7 +125,7 @@ listStatus  listInsertNodeData(head_t *head, uint32_t index, nodeData_t nodeData
   }
   s = (node_t*)malloc(sizeof(node_t));
   if(s == NULL)return ERROR;
-  memcpy((void*)&(s ->data), (const void*)&nodeData, sizeof(nodeData_t));
+  memcpy((void*)&(s ->data), (const void*)&nodedata, sizeof(nodedata_t));
   s ->next = p ->next;
   p ->next = s;
   head ->length++;
@@ -139,7 +133,7 @@ listStatus  listInsertNodeData(head_t *head, uint32_t index, nodeData_t nodeData
   return SUCCESS;
 }
 
-listStatus  listDeleteNodeData(head_t *head, uint32_t index, nodeData_t *nodeData)
+listStatus  list_delete_nodedata(head_t* head, uint32_t index, nodedata_t* nodedata)
 {
   node_t      *p = NULL;
   node_t      *q = NULL;
