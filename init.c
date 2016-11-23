@@ -11,13 +11,6 @@
 
 int main(int argc, char const *argv[])
 {
-  ///////////////////////////TEST////////////////////////////
-  uint32_t len = 0;
-  listCreate(&head, 100);
-  listLength(head, &len);
-  printf("====%d\n", len);
-  ///////////////////////////TEST////////////////////////////
-
   //打印lightserver版本信息
   printf("Lightserver: %d.%d.%d\n",MAJOR_VERSION,MINOR_VERSION,REVISION_VERSION);
 
