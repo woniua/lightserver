@@ -10,22 +10,29 @@
 #include "tcp_read_event.h"
 #include "config.h"
 
+void cb(evutil_socket_t a, short b, void * c)
+{
+  printf("read wwwwwwwwwwwwwwwwwwwww\n");
+}
+
 void* tcp_read_event(void* arg)
 {
-  struct event_base*      tcp_read_base;
-
-  tcp_read_base = tcp_read_event_arg.tcp_read_base;
-  tcp_read_base = event_base_new();
-  if(!tcp_read_base){
+  struct event*  timeout_event;
+  struct event*  timeout_event1;
+  struct timeval timeout = {20,0};
+  //struct timeval timeout1 = {5,0};
+  tcp_read_event_arg.tcp_read_base = event_base_new();
+  if(!tcp_read_event_arg.tcp_read_base){
     fprintf(stderr, "Could not initialize libevent!\n");
     exit(-1);
   }
-
-  while(1)
-  {
-    printf("hello tcp read.\n");
-    sleep(1);
-  }
+  timeout_event = evtimer_new(tcp_read_event_arg.tcp_read_base, cb, NULL);
+  evtimer_add(timeout_event, &timeout);
+  timeout_event1 = evtimer_new(tcp_read_event_arg.tcp_read_base, cb, NULL);
+  //evtimer_add(timeout_event1, &timeout1);
+  event_base_dispatch(tcp_read_event_arg.tcp_read_base);
+  printf("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq\n");
+  event_base_free(tcp_read_event_arg.tcp_read_base);
 }
 
 void tcp_read_event_thread_create(evutil_socket_t socket_fd)

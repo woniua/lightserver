@@ -91,6 +91,7 @@ int main(int argc, char const *argv[])
 {
   if(argc != 5){
     help_disp(5, argc);
+    exit(-1);
   }
 
   //传入参数赋值给结构体
