@@ -44,10 +44,6 @@ void listener_tcp_cb(struct evconnlistener* listener, evutil_socket_t new_socket
     fprintf(stderr, "bufferevent create failed!\n");
   }
 
-  // if(event_add(nodedata.socket_event, &timeout)){
-  //   fprintf(stderr, "event add failed!\n");
-  // }
-
   bufferevent_setcb(nodedata.socket_bufferevent, bev_read_cb, bev_write_cb, bev_event_cb, NULL);
   bufferevent_enable(nodedata.socket_bufferevent, EV_READ|EV_WRITE);
   printf("qqqwwwww\n");
