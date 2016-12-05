@@ -8,23 +8,54 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <event2/event.h>
+#include <event2/buffer.h>
+#include <event2/bufferevent.h>
 #include <event2/listener.h>
 
 #include "listen_event.h"
+#include "tcp_event.h"
+#include "list.h"
 #include "config.h"
 
 void listener_http_cb(struct evconnlistener* listener, evutil_socket_t new_socket_fd,\
                       struct sockaddr* saddr, int socklen, void* arg)
 {
+  nodedata_t nodedata;
+
+  memcpy((void*)&nodedata, (const void*)saddr, sizeof(struct sockaddr));//saddr赋值
+  printf("ip:%s port:%d\n", inet_ntoa(nodedata.saddr.sin_addr), nodedata.saddr.sin_port);
+  list_insert_nodedata(&http_head, 1, nodedata);
+
   evutil_make_socket_nonblocking(new_socket_fd);//设置socket为非阻塞
-  printf("hello http junliang.\n");
 }
 
 void listener_tcp_cb(struct evconnlistener* listener, evutil_socket_t new_socket_fd,\
                      struct sockaddr* saddr, int socklen, void* arg)
 {
+  nodedata_t          nodedata;
+  struct timeval      timeout = {5, 0};
+
+  memcpy((void*)&(nodedata.saddr), (const void*)saddr, sizeof(struct sockaddr));//saddr赋值
+  printf("ip:%s port:%d\n", inet_ntoa(nodedata.saddr.sin_addr), nodedata.saddr.sin_port);
+
+  nodedata.socket_bufferevent = bufferevent_socket_new(tcp_event_arg.tcp_eventbase, \
+                                                       new_socket_fd, BEV_OPT_CLOSE_ON_FREE);
+  if(!nodedata.socket_bufferevent){
+    fprintf(stderr, "bufferevent create failed!\n");
+  }
+
+  // if(event_add(nodedata.socket_event, &timeout)){
+  //   fprintf(stderr, "event add failed!\n");
+  // }
+
+  bufferevent_setcb(nodedata.socket_bufferevent, bev_read_cb, bev_write_cb, bev_event_cb, NULL);
+  bufferevent_enable(nodedata.socket_bufferevent, EV_READ|EV_WRITE);
+  printf("qqqwwwww\n");
+
+  list_insert_nodedata(&tcp_head, 1, nodedata);
   evutil_make_socket_nonblocking(new_socket_fd);//设置socket为非阻塞
-  printf("hello tcp junliang.\n");
+
+
 }
 
 void listen_event_handle(void)
@@ -48,7 +79,7 @@ void listen_event_handle(void)
                                      LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
                                     (struct sockaddr*)&sock_in, sizeof(sock_in) );
   if(!listener){
-    fprintf(stderr, "Could not create a listener!\n");
+    fprintf(stderr, "Could not create a listener on port: %d!\n", HTTP_PORT);
     exit(-1);
   }
 
@@ -60,7 +91,7 @@ void listen_event_handle(void)
                                      LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
                                     (struct sockaddr*)&sock_in, sizeof(sock_in) );
   if(!listener){
-    fprintf(stderr, "Could not create a listener!\n");
+    fprintf(stderr, "Could not create a listener on port: %d!\n", TCP_PORT);
     exit(-1);
   }
 

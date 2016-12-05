@@ -5,60 +5,62 @@
 #include <string.h>
 #include "list.h"
 
-listStatus  listCreate(listNode_t **list, uint32_t n)
+listStatus  list_create(head_t* head, uint32_t n)
 {
-  int i;
-  listNode_t *p = NULL;
-  listNode_t *r = NULL;
+  int    i;
+  node_t* p = NULL;
+  node_t* r = NULL;
 
-  *list = (listNode_t*)malloc(sizeof(listNode_t));
-  if(*list == NULL)return ERROR;
-  r = *list;
-
+  head ->node = (node_t*)malloc(sizeof(node_t));
+  if(head ->node == NULL)return ERROR;
+  head ->length = 0;
+  r = head ->node;
   for(i = 0; i < n; i++)
   {
-    p = (listNode_t*)malloc(sizeof(listNode_t));
+    p = (node_t*)malloc(sizeof(node_t));
     if(p == NULL)return ERROR;
-    //----------节点内容赋值开始----------
-    //p->client = dummy;//节点内容赋值
-    //----------节点内容赋值结束----------
+
+    //----------节点数据赋值开始----------
+    //----------节点数据赋值结束----------
     r ->next = p;
-    r = p;
+    r        = p;
+    head ->length++;
   }
-  r->next = NULL;
+  r ->next = NULL;
   return SUCCESS;
 }
 
-listStatus  listClear(listNode_t *list)
+listStatus  list_clear(head_t* head)
 {
-  listNode_t *p = NULL;
-  listNode_t *q = NULL;
+  node_t* p = NULL;
+  node_t* q = NULL;
 
-  p = list ->next;
+  p = head ->node ->next;
   while(p)
   {
     q = p ->next;
     free(p);
     p = q;
+    head ->length--;
   }
-  list ->next = NULL;
+  head ->node ->next = NULL;
   return SUCCESS;
 }
 
-listStatus  listIsEmpty(listNode_t *list)
+listStatus  list_is_empty(head_t* head)
 {
-  if(list ->next == NULL)//链表为空
+  if(head ->node ->next == NULL)//链表为空
     return SUCCESS;
   else
     return ERROR;
 }
 
-listStatus  listLength(listNode_t *list, uint32_t *length)
+listStatus  list_length(head_t* head, uint32_t* length)
 {
-  listNode_t *p   = NULL;
+  node_t      *p  = NULL;
   uint32_t    cnt = 0;
 
-  p = list ->next;
+  p = head ->node ->next;
   while(p)
   {
     p = p ->next;
@@ -68,35 +70,35 @@ listStatus  listLength(listNode_t *list, uint32_t *length)
   return SUCCESS;
 }
 
-listStatus  listGetElem(listNode_t *list, uint32_t index, clientInfo_t *element)
+listStatus  list_get_nodedata(head_t* head, uint32_t index, nodedata_t* nodedata)
 {
-  listNode_t *p   = NULL;
-  uint32_t    length;
+  node_t      *p = NULL;
   uint32_t    i;
 
   //传参校验
-  listLength(list, &length);
-  if(index > length)return ERROR;
+  if( (index > head ->length)||(index < 1) )return ERROR;
 
-  p = list ->next;
+  p = head ->node;
   for(i = 0; i < index; i++){
     p = p ->next;
   }
   //元素赋值
-  *element = p ->client;
+  memcpy((void*)nodedata, (const void*)&(p ->data), sizeof(nodedata_t));
   return SUCCESS;
 }
 
-listStatus  listCheckElem(listNode_t *list, uint32_t *index, clientInfo_t element)
+listStatus  list_check_nodedata(head_t* head, uint32_t* index, nodedata_t nodedata)
 {
-  listNode_t *p   = NULL;
-  uint32_t    cnt = 0;
+  node_t      *p  = NULL;
+  uint32_t    cnt = 1;
+  int32_t     result;
 
-  p = list ->next;
+  p = head ->node ->next;
   while(p)
   {
-    //判断给出的元素于链表当前节点的值是否相等
-    if(1){
+    //判断给出的元素与链表当前节点数据区的值是否相等
+    result = memcmp((const void*)&nodedata, (const void*)&(p ->data), sizeof(nodedata_t));
+    if(!result){
       *index = cnt;
       return SUCCESS;
     }
@@ -107,36 +109,48 @@ listStatus  listCheckElem(listNode_t *list, uint32_t *index, clientInfo_t elemen
   return ERROR;
 }
 
-listStatus  listInsertElem(listNode_t *list, uint32_t index, clientInfo_t element)
+listStatus  list_insert_nodedata(head_t* head, uint32_t index, nodedata_t nodedata)
 {
-  listNode_t *p   = NULL;
+  node_t      *p = NULL;
+  node_t      *s = NULL;
   uint32_t    length;
   uint32_t    i;
 
   //传参校验
-  listLength(list, &length);
-  if(index > length)return ERROR;
+  if( (index > (head->length + 1))||(index < 1) )return ERROR;
 
-  p = list ->next;
-  for(i = 0; i < index; i++){
+  p = head ->node;
+  for(i = 0; i < (index-1); i++){
     p = p ->next;
   }
-  memcpy((void*)p, (const void*)&element, sizeof(clientInfo_t));
+  s = (node_t*)malloc(sizeof(node_t));
+  if(s == NULL)return ERROR;
+  memcpy((void*)&(s ->data), (const void*)&nodedata, sizeof(nodedata_t));
+  s ->next = p ->next;
+  p ->next = s;
+  head ->length++;
 
   return SUCCESS;
 }
-listStatus  listDeleteElem(listNode_t *list, uint32_t index, clientInfo_t *element)
+
+listStatus  list_delete_nodedata(head_t* head, uint32_t index, nodedata_t* nodedata)
 {
-  listNode_t *p   = NULL;
+  node_t      *p = NULL;
+  node_t      *q = NULL;
   uint32_t    length;
   uint32_t    i;
 
   //传参校验
-  listLength(list, &length);
-  if(index > length)return ERROR;
+  if( (index > head ->length)||(index < 1) )return ERROR;
 
-  p = list ->next;
-  for(i = 0; i < index; i++){
+  p = head ->node;
+  for(i = 0; i < (index-1); i++){
     p = p ->next;
   }
+  q        = p ->next;
+  p ->next = q ->next;
+  free(q);
+  head ->length--;
+
+  return SUCCESS;
 }
