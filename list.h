@@ -10,16 +10,20 @@
 /* 头文件包含 */
 #include <stdint.h>
 #include <netinet/in.h>
+#include <event2/event.h>
+#include <event2/buffer.h>
+#include <event2/bufferevent.h>
 
 /* 返回状态枚举值 */
 typedef enum{ERROR= 0, SUCCESS= !ERROR}listStatus;
 
 /* 节点结构体数据域 */
 typedef struct{
-  struct sockaddr_in saddr;        //连接的IP地址和端口信息
-  int32_t            connect_fd;   //连接描述符
-  char*              name;         //连接的别名
-  struct event*      socket_event; //待注册的事件指针
+  struct sockaddr_in   saddr;              //连接的IP地址和端口信息
+  int32_t              connect_fd;         //连接描述符
+  char*                name;               //连接的别名
+  struct event*        socket_event;       //当前连接注册的事件指针
+  struct bufferevent*  socket_bufferevent; //当前连接注册bufferevent
 }nodedata_t;
 
 /* 链表节点结构体 */
