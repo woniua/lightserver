@@ -13,7 +13,12 @@
 
 void bev_read_cb(struct bufferevent *bev, void *ctx)
 {
-  printf("read cd\n");
+  char data[200]= {0};
+  //uint32_t length = bufferevent_get_max_to_read(bev);
+  uint32_t length = bufferevent_read(bev, data, 20);
+  printf("read cd:%d-%s\n",length, data);
+  bufferevent_write(bev, data, length);
+
 }
 
 void bev_write_cb(struct bufferevent *bev, void *ctx)
@@ -24,6 +29,7 @@ void bev_write_cb(struct bufferevent *bev, void *ctx)
 void bev_event_cb(struct bufferevent *bev, short events, void *ctx)
 {
   printf("event cb\n");
+  //bufferevent_free(bev);
 }
 
 void* tcp_event_thread_process(void* arg)

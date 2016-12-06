@@ -39,6 +39,7 @@ void* client_thread(void* arg)
   struct hostent*    he;
   struct sockaddr_in server;
   int                connect_fd;
+  char               recvbuf[1024] = {0};
   tcpclient_arg_t* tcpclient_arg = (tcpclient_arg_t*)arg;
 
   //向SERVER发起连接
@@ -64,13 +65,20 @@ void* client_thread(void* arg)
   //设置发送超时时间
   struct timeval send_timeout = {5, 0};
   setsockopt(connect_fd, SOL_SOCKET, SO_SNDTIMEO, &send_timeout, sizeof(send_timeout));
-
+  //设置接收超时时间
+  struct timeval recv_timeout = {10, 50000};
+  setsockopt(connect_fd, SOL_SOCKET, SO_RCVTIMEO, &recv_timeout, sizeof(recv_timeout));
   while(1)
   {
     if(-1 == send(connect_fd, tcpclient_arg->msg, strlen(tcpclient_arg->msg), 0)){
       close(connect_fd);
       pthread_exit(NULL);
     }
+    if(recv(connect_fd, recvbuf, strlen(recvbuf), 0) > 0){
+      printf("recv:%s",recvbuf);
+      memset(recvbuf, 0, sizeof(recvbuf));
+    }
+
     printf("%s\n", tcpclient_arg->msg);
     sleep(1);
   }

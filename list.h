@@ -22,8 +22,8 @@ typedef struct{
   struct sockaddr_in   saddr;              //连接的IP地址和端口信息
   int32_t              connect_fd;         //连接描述符
   char*                name;               //连接的别名
-  struct event*        socket_event;       //当前连接注册的事件指针
-  struct bufferevent*  socket_bufferevent; //当前连接注册bufferevent
+  struct event*        socket_ev;       //当前连接注册的事件指针
+  struct bufferevent*  socket_bufev; //当前连接注册bufferevent
 }nodedata_t;
 
 /* 链表节点结构体 */
