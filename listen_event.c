@@ -48,7 +48,7 @@ void listener_tcp_cb(struct evconnlistener* listener, evutil_socket_t new_socket
 
   bufferevent_setcb(nodedata.socket_bufev, \
                     bev_read_cb, \
-                    bev_write_cb, \
+                    NULL, \
                     bev_event_cb, \
                     NULL);
   bufferevent_set_timeouts(nodedata.socket_bufev, \
@@ -58,17 +58,11 @@ void listener_tcp_cb(struct evconnlistener* listener, evutil_socket_t new_socket
                            EV_READ , \
                            CFG_SYS_READ_LOWMARK, \
                            CFG_SYS_READ_HIGHMARK);
-  bufferevent_setwatermark(nodedata.socket_bufev, \
-                           EV_WRITE, \
-                           CFG_SYS_WRITE_LOWMARK, \
-                           CFG_SYS_WRITE_HIGHMARK);
   bufferevent_enable(nodedata.socket_bufev, EV_READ|EV_WRITE);
-  printf("qqqwwwww\n");
 
   list_insert_nodedata(&tcp_head, 1, nodedata);
-  evutil_make_socket_nonblocking(new_socket_fd);//设置socket为非阻塞
-
-
+  //设置socket为非阻塞
+  evutil_make_socket_nonblocking(new_socket_fd);
 }
 
 void listen_event_handle(void)

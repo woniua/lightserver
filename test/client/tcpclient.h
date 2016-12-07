@@ -10,6 +10,11 @@
 /* 头文件包含 */
 #include <stdint.h>
 
+#define SOCKET_SEND_TIMEOUT_S                    5
+#define SOCKET_RECV_TIMEOUT_S                    1
+
+uint32_t recvcount;//统计累计接收数据次数
+
 typedef struct{
   int    clientNum;
   char*  serverAddr;

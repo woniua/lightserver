@@ -63,10 +63,10 @@ void* client_thread(void* arg)
   }
 
   //设置发送超时时间
-  struct timeval send_timeout = {5, 0};
+  struct timeval send_timeout = {SOCKET_SEND_TIMEOUT_S, 0};
   setsockopt(connect_fd, SOL_SOCKET, SO_SNDTIMEO, &send_timeout, sizeof(send_timeout));
   //设置接收超时时间
-  struct timeval recv_timeout = {10, 50000};
+  struct timeval recv_timeout = {SOCKET_RECV_TIMEOUT_S, 0};
   setsockopt(connect_fd, SOL_SOCKET, SO_RCVTIMEO, &recv_timeout, sizeof(recv_timeout));
   while(1)
   {
@@ -74,12 +74,20 @@ void* client_thread(void* arg)
       close(connect_fd);
       pthread_exit(NULL);
     }
-    if(recv(connect_fd, recvbuf, strlen(recvbuf), 0) > 0){
-      printf("recv:%s",recvbuf);
+    printf("connect-fd %d send:%s\n", connect_fd, tcpclient_arg->msg);
+    if(recv(connect_fd, recvbuf, sizeof(recvbuf), 0) > 0){
+      printf("connect-fd %d recv:%s\n",connect_fd, recvbuf);
       memset(recvbuf, 0, sizeof(recvbuf));
+      recvcount++;
+    }
+    else{
+      printf("\n");
+      printf("client number     :%d.\n",  tcpclient_arg->clientNum);
+      printf("recv timeout value:%ds.\n", SOCKET_RECV_TIMEOUT_S);
+      printf("recv total count  :%d.\n", recvcount);
+      exit(-1);
     }
 
-    printf("%s\n", tcpclient_arg->msg);
     sleep(1);
   }
 }

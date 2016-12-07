@@ -16,3 +16,10 @@
 2.编译lightserver
 ====================
   $ make
+
+1.OpenSSL环境的准备
+====================
+  (1).安装openssl和相关库
+      $ sudo apt-get install openssl libssl-dev
+  (2).编译支持
+      编译时加上链接库 -lcrypto

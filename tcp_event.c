@@ -14,16 +14,19 @@
 void bev_read_cb(struct bufferevent *bev, void *ctx)
 {
   char data[200]= {0};
-  //uint32_t length = bufferevent_get_max_to_read(bev);
-  uint32_t length = bufferevent_read(bev, data, 20);
+  char senddata[100] ="hello erveyone!!!";
+  uint32_t length;
+  struct evbuffer* tmp = evbuffer_new();
+  if(!tmp) return;
+
+  length = bufferevent_read_buffer(bev, tmp);
+  evbuffer_remove(tmp, data, sizeof(data));
   printf("read cd:%d-%s\n",length, data);
-  bufferevent_write(bev, data, length);
 
-}
-
-void bev_write_cb(struct bufferevent *bev, void *ctx)
-{
-  printf("write cd\n");
+  evbuffer_add(tmp, senddata, strlen(senddata));
+  evbuffer_write(tmp, bufferevent_getfd(bev));
+  printf("send : %s", senddata);
+  evbuffer_free(tmp);
 }
 
 void bev_event_cb(struct bufferevent *bev, short events, void *ctx)

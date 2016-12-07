@@ -24,8 +24,6 @@ EXT_TCP_EVENT tcp_event_arg_t tcp_event_arg;
 EXT_TCP_EVENT void tcp_event_thread_create(evutil_socket_t socket_fd);
 // TCP读数据回调函数
 EXT_TCP_EVENT void bev_read_cb( struct bufferevent *bev, void *ctx);
-// TCP写数据回调函数
-EXT_TCP_EVENT void bev_write_cb(struct bufferevent *bev, void *ctx);
 // TCP连接异常回调函数
 EXT_TCP_EVENT void bev_event_cb(struct bufferevent *bev, short events, void *ctx);
 

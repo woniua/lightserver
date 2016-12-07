@@ -19,11 +19,11 @@ typedef enum{ERROR= 0, SUCCESS= !ERROR}listStatus;
 
 /* 节点结构体数据域 */
 typedef struct{
-  struct sockaddr_in   saddr;              //连接的IP地址和端口信息
-  int32_t              connect_fd;         //连接描述符
-  char*                name;               //连接的别名
-  struct event*        socket_ev;       //当前连接注册的事件指针
-  struct bufferevent*  socket_bufev; //当前连接注册bufferevent
+  struct sockaddr_in   saddr;         //连接的IP地址和端口信息
+  int32_t              connect_fd;    //连接描述符
+  char*                name;          //连接的别名
+  struct event*        socket_ev;     //当前连接注册的事件指针
+  struct bufferevent*  socket_bufev;  //当前连接注册bufferevent
 }nodedata_t;
 
 /* 链表节点结构体 */
@@ -43,7 +43,7 @@ EXT_LIST head_t tcp_head;
 /* 公有函数声明 */
 EXT_LIST  listStatus  list_create(head_t* head, uint32_t n);       //创建一个新的线性表
 EXT_LIST  listStatus  list_clear(head_t* head);                    //清空线性表
-EXT_LIST  listStatus  list_is_empty(head_t* head);                  //检查线性表是否为空
+EXT_LIST  listStatus  list_is_empty(head_t* head);                 //检查线性表是否为空
 EXT_LIST  listStatus  list_length(head_t* head, uint32_t* length); //获取线性表的长度
 EXT_LIST  listStatus  list_get_nodedata(head_t* head, uint32_t index, nodedata_t* nodedata);   //获取线性表第i位置的元素
 EXT_LIST  listStatus  list_check_nodedata(head_t* head, uint32_t* index, nodedata_t nodedata); //检查线性表中指定元素是否存在并返回元素的位置
