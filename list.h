@@ -42,9 +42,9 @@ EXT_LIST head_t tcp_head;
 
 /* 公有函数声明 */
 EXT_LIST  listStatus  list_create(head_t* head, uint32_t n);       //创建一个新的线性表
-EXT_LIST  listStatus  list_clear(head_t* head);                    //清空线性表
+EXT_LIST  void        list_clear(head_t* head);                    //清空线性表
 EXT_LIST  listStatus  list_is_empty(head_t* head);                 //检查线性表是否为空
-EXT_LIST  listStatus  list_length(head_t* head, uint32_t* length); //获取线性表的长度
+EXT_LIST  uint32_t    list_length(head_t* head);                   //获取线性表的长度
 EXT_LIST  listStatus  list_get_nodedata(head_t* head, uint32_t index, nodedata_t* nodedata);   //获取线性表第i位置的元素
 EXT_LIST  listStatus  list_check_nodedata(head_t* head, uint32_t* index, nodedata_t nodedata); //检查线性表中指定元素是否存在并返回元素的位置
 EXT_LIST  listStatus  list_insert_nodedata(head_t* head, uint32_t index, nodedata_t nodedata); //向线性表中指定节点之前插入一个元素

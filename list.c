@@ -30,7 +30,7 @@ listStatus  list_create(head_t* head, uint32_t n)
   return SUCCESS;
 }
 
-listStatus  list_clear(head_t* head)
+void  list_clear(head_t* head)
 {
   node_t* p = NULL;
   node_t* q = NULL;
@@ -44,7 +44,6 @@ listStatus  list_clear(head_t* head)
     head ->length--;
   }
   head ->node ->next = NULL;
-  return SUCCESS;
 }
 
 listStatus  list_is_empty(head_t* head)
@@ -55,19 +54,9 @@ listStatus  list_is_empty(head_t* head)
     return ERROR;
 }
 
-listStatus  list_length(head_t* head, uint32_t* length)
+uint32_t  list_length(head_t* head)
 {
-  node_t      *p  = NULL;
-  uint32_t    cnt = 0;
-
-  p = head ->node ->next;
-  while(p)
-  {
-    p = p ->next;
-    cnt++;
-  }
-  *length = cnt;
-  return SUCCESS;
+  return head ->length;
 }
 
 listStatus  list_get_nodedata(head_t* head, uint32_t index, nodedata_t* nodedata)
