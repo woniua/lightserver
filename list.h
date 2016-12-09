@@ -38,7 +38,8 @@ typedef struct{
   int       length;    //链表长度
 }head_t;
 EXT_LIST head_t http_head;
-EXT_LIST head_t tcp_head;
+EXT_LIST head_t tcp_dev_head;
+EXT_LIST head_t tcp_monitor_head;
 
 /* 公有函数声明 */
 EXT_LIST  listStatus  list_create(head_t* head, uint32_t n);       //创建一个新的线性表
