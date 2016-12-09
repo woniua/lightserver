@@ -22,9 +22,9 @@ EXT_TCP_DEV_EVENT tcp_dev_event_arg_t tcp_dev_event_arg;
 
 /* 公有函数声明 */
 EXT_TCP_DEV_EVENT void tcp_dev_event_thread_create(evutil_socket_t socket_fd);
-// TCP读数据回调函数
+// TCP_DEV读数据回调函数
 EXT_TCP_DEV_EVENT void bev_tcp_dev_read_cb( struct bufferevent *bev, void *ctx);
-// TCP连接异常回调函数
+// TCP_DEV连接异常回调函数
 EXT_TCP_DEV_EVENT void bev_tcp_dev_event_cb(struct bufferevent *bev, short events, void *ctx);
 
 #endif /* #ifndef __TCP_DEV_EVENT_H */

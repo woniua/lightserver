@@ -22,9 +22,11 @@ EXT_TCP_MONITOR_EVENT tcp_monitor_event_arg_t tcp_monitor_event_arg;
 
 /* 公有函数声明 */
 EXT_TCP_MONITOR_EVENT void tcp_monitor_event_thread_create(evutil_socket_t socket_fd);
-// TCP读数据回调函数
+// TCP_MONITOR读数据回调函数
 EXT_TCP_MONITOR_EVENT void bev_tcp_monitor_read_cb( struct bufferevent *bev, void *ctx);
-// TCP连接异常回调函数
+// TCP_MONITOR写数据回调函数
+EXT_TCP_MONITOR_EVENT void bev_tcp_monitor_write_cb( struct bufferevent *bev, void *ctx);
+// TCP_MONITOR连接异常回调函数
 EXT_TCP_MONITOR_EVENT void bev_tcp_monitor_event_cb(struct bufferevent *bev, short events, void *ctx);
 
 #endif /* #ifndef __TCP_MONITOR_EVENT_H */

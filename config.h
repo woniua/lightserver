@@ -48,10 +48,17 @@
 #define  CFG_SYS_TCP_DEV_READ_HIGHMARK           0
 #define  CFG_SYS_TCP_MONITOR_READ_HIGHMARK       0
 
-/* OpenSSL传输加密使能/禁能 */
-//TCP socket的OpenSSL的加密传输,0:禁能; 1:使能
+/* OpenSSL传输加密支持 */
+//TCP socket的OpenSSL的加密传输,0:不支持; 1:支持
 #define  CFG_EN_HTTP_OPENSSL                     1
 #define  CFG_EN_TCP_DEV_OPENSSL                  1
 #define  CFG_EN_TCP_MONITOR_OPENSSL              1
+
+/* TCP_DEV的mysql数据库支持 */
+//dev发送来的数据存储进mysql数据库,0:不支持; 1:支持
+#define  CFG_EN_TCP_DEV_MYSQL                    1
+//#define  
+
+/*  */
 
 #endif /* #ifndef __CONFIG_H */

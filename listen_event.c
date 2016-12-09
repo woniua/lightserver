@@ -133,8 +133,8 @@ void listen_event_handle(void)
   sock_in.sin_addr.s_addr = htonl(INADDR_ANY);
   sock_in.sin_port        = htons(CFG_HTTP_PORT);
   listener = evconnlistener_new_bind(listen_base, listener_http_cb, \
-                                     (char*)"hello http",
-                                     LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
+                                     (char*)"hello http", \
+                                     LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1, \
                                      (struct sockaddr*)&sock_in, sizeof(sock_in) );
   if(!listener){
     fprintf(stderr, "Could not create a listener on port: %d!\n", CFG_HTTP_PORT);
@@ -147,8 +147,8 @@ void listen_event_handle(void)
   sock_in.sin_addr.s_addr = htonl(INADDR_ANY);
   sock_in.sin_port        = htons(CFG_TCP_DEV_PORT);
   listener = evconnlistener_new_bind(listen_base, listener_tcp_dev_cb, \
-                                     (char*)"hello tcp dev",
-                                     LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
+                                     (char*)"hello tcp dev", \
+                                     LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1, \
                                      (struct sockaddr*)&sock_in, sizeof(sock_in) );
   if(!listener){
     fprintf(stderr, "Could not create a listener on port: %d!\n", CFG_TCP_DEV_PORT);
@@ -161,8 +161,8 @@ void listen_event_handle(void)
   sock_in.sin_addr.s_addr = htonl(INADDR_ANY);
   sock_in.sin_port        = htons(CFG_TCP_MONITOR_PORT);
   listener = evconnlistener_new_bind(listen_base, listener_tcp_monitor_cb, \
-                                     (char*)"hello tcp monitor",
-                                     LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1,
+                                     (char*)"hello tcp monitor", \
+                                     LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, -1, \
                                      (struct sockaddr*)&sock_in, sizeof(sock_in) );
   if(!listener){
     fprintf(stderr, "Could not create a listener on port: %d!\n", CFG_TCP_MONITOR_PORT);
@@ -170,7 +170,6 @@ void listen_event_handle(void)
   }
 
   event_base_dispatch(listen_base);
-
   evconnlistener_free(listener);
   event_base_free(listen_base);
 }
