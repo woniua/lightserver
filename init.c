@@ -7,6 +7,7 @@
 #include "http_event.h"
 #include "tcp_dev_event.h"
 #include "tcp_monitor_event.h"
+#include "aes_options.h"
 #include "config.h"
 
 int main(int argc, char const *argv[])

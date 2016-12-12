@@ -11,7 +11,7 @@
 #include "tcp_dev_event.h"
 #include "config.h"
 
-void bev_tcp_dev_read_cb(struct bufferevent *bev, void *ctx)
+void bev_tcp_dev_read_cb(struct bufferevent* bev, void* ctx)
 {
   char data[200]= {0};
   char senddata[100] ="Hello I'm tcp-dev!!!";
@@ -29,7 +29,7 @@ void bev_tcp_dev_read_cb(struct bufferevent *bev, void *ctx)
   evbuffer_free(tmp);
 }
 
-void bev_tcp_dev_event_cb(struct bufferevent *bev, short events, void *ctx)
+void bev_tcp_dev_event_cb(struct bufferevent* bev, short events, void* ctx)
 {
   printf("event cb\n");
   //bufferevent_free(bev);

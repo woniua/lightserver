@@ -11,6 +11,9 @@
 #include <stdint.h>
 
 /* 公有函数声明 */
-EXT_AES_OPTIONS  int  encrypt(char *input_string  , char **encrypt_string);
-EXT_AES_OPTIONS  void decrypt(char *encrypt_string, char **decrypt_string, int len);
+//返回值:加密后的数据长度，如加密失败返回-1
+EXT_AES_OPTIONS  int32_t encrypt(char* input, char* output, uint32_t input_len);
+//返回值:解密后的数据长度，如解密失败返回-1
+EXT_AES_OPTIONS  int32_t decrypt(char* input, char* output, uint32_t input_len);
+
 #endif /* #ifndef __AES_OPTIONS_H */
