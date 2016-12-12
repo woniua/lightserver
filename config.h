@@ -57,8 +57,47 @@
 /* TCP_DEV的mysql数据库支持 */
 //dev发送来的数据存储进mysql数据库,0:不支持; 1:支持
 #define  CFG_EN_TCP_DEV_MYSQL                    1
-//#define  
 
-/*  */
+/* 数据回显支持 */
+//TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上响应一帧数据到该设备,0:不支持; 1:支持
+#define  CFG_EN_TCP_DEV_ECHO                     1
+//TCP_MONITOR的设备向服务器发送完一帧数据后，服务器可以马上响应一帧数据到该设备,0:不支持; 1:支持
+#define  CFG_EN_TCP_MONITOR_ECHO                 1
+
+/* 数据转发支持 */
+//TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后发送到TCP_DEV
+//的某台在线设备,0:不支持; 1:支持
+#define  CFG_EN_TCP_DEV_FORWARD_DEV              1
+//TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后发送到TCP_MONITOR
+//的某台在线设备,0:不支持; 1:支持
+#define  CFG_EN_TCP_DEV_FORWARD_MONITOR          1
+//TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后向TCP_DEV的其
+//它所有在线设备进行广播,0:不支持; 1:支持
+#define  CFG_EN_TCP_DEV_BROADCAST_DEV            1
+//TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后向TCP_MONITOR
+//的其它在线所有设备进行广播,0:不支持; 1:支持
+#define  CFG_EN_TCP_DEV_BROADCAST_MONITOR        1
+//TCP_MONITOR的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后发送到TCP_MONITOR
+//的某台在线设备,0:不支持; 1:支持
+#define  CFG_EN_TCP_MONITOR_FORWARD_MONITOR      1
+//TCP_MONITOR的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后发送到TCP_DEV
+//的某台在线设备,0:不支持; 1:支持
+#define  CFG_EN_TCP_MONITOR_FORWARD_DEV          1
+//TCP_MONITOR的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后向TCP_MONITOR
+//的其它所有在线设备进行广播,0:不支持; 1:支持
+#define  CFG_EN_TCP_MONITOR_BROADCAST_MONITOR    1
+//TCP_MONITOR的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后向TCP_DEV
+//的其它所有在线设备进行广播,0:不支持; 1:支持
+#define  CFG_EN_TCP_MONITOR_BROADCAST_DEV        1
+
+/* 数据推送支持 */
+//服务器监测到某触发条件被满足后向TCP_DEV的某台在线设备推送数据,0:不支持; 1:支持
+#define  CFG_EN_SERVER_FORWARD_DEV               1
+//服务器监测到某触发条件被满足后向TCP_MONITOR的某台在线设备推送数据,0:不支持; 1:支持
+#define  CFG_EN_SERVER_FORWARD_MONITOR           1
+//服务器监测到某触发条件被满足后向TCP_DEV的所有在线设备推送数据,0:不支持; 1:支持
+#define  CFG_EN_SERVER_BROADCAST_DEV             1
+//服务器监测到某触发条件被满足后向TCP_MONITOR的所有在线设备推送数据,0:不支持; 1:支持
+#define  CFG_EN_SERVER_BROADCAST_MONITOR         1
 
 #endif /* #ifndef __CONFIG_H */
