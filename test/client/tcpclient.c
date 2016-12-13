@@ -39,6 +39,7 @@ void* client_thread(void* arg)
   struct hostent*    he;
   struct sockaddr_in server;
   int                connect_fd;
+  char               recvbuf[1024] = {0};
   tcpclient_arg_t* tcpclient_arg = (tcpclient_arg_t*)arg;
 
   //向SERVER发起连接
@@ -62,16 +63,31 @@ void* client_thread(void* arg)
   }
 
   //设置发送超时时间
-  struct timeval send_timeout = {5, 0};
+  struct timeval send_timeout = {SOCKET_SEND_TIMEOUT_S, 0};
   setsockopt(connect_fd, SOL_SOCKET, SO_SNDTIMEO, &send_timeout, sizeof(send_timeout));
-
+  //设置接收超时时间
+  struct timeval recv_timeout = {SOCKET_RECV_TIMEOUT_S, 0};
+  setsockopt(connect_fd, SOL_SOCKET, SO_RCVTIMEO, &recv_timeout, sizeof(recv_timeout));
   while(1)
   {
     if(-1 == send(connect_fd, tcpclient_arg->msg, strlen(tcpclient_arg->msg), 0)){
       close(connect_fd);
       pthread_exit(NULL);
     }
-    printf("%s\n", tcpclient_arg->msg);
+    printf("connect-fd %d send:%s\n", connect_fd, tcpclient_arg->msg);
+    if(recv(connect_fd, recvbuf, sizeof(recvbuf), 0) > 0){
+      printf("connect-fd %d recv:%s\n",connect_fd, recvbuf);
+      memset(recvbuf, 0, sizeof(recvbuf));
+      recvcount++;
+    }
+    else{
+      printf("\n");
+      printf("client number     :%d.\n",  tcpclient_arg->clientNum);
+      printf("recv timeout value:%ds.\n", SOCKET_RECV_TIMEOUT_S);
+      printf("recv total count  :%d.\n", recvcount);
+      exit(-1);
+    }
+
     sleep(1);
   }
 }
@@ -91,6 +107,7 @@ int main(int argc, char const *argv[])
 {
   if(argc != 5){
     help_disp(5, argc);
+    exit(-1);
   }
 
   //传入参数赋值给结构体

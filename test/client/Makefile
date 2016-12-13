@@ -1,4 +1,4 @@
-SRC     = *.c
+SRC     = *.c *.h
 TARGET  = tcpclient
 LIB     = -lpthread
 OPT     = -std=gnu99

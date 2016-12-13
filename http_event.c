@@ -10,7 +10,7 @@
 #include "http_event.h"
 #include "config.h"
 
-void* http_event(void* arg)
+void* http_event_thread_process(void* arg)
 {
   struct event_base*      http_base;
 
@@ -32,7 +32,7 @@ void http_event_thread_create(evutil_socket_t socket_fd)
 {
   pthread_t http_pid;
 
-  if(pthread_create(&http_pid, NULL, http_event, (void*)&socket_fd)){
+  if(pthread_create(&http_pid, NULL, http_event_thread_process, (void*)&socket_fd)){
     fprintf(stderr, "Could not create http_event_process thread!\n");
     exit(-1);
   }
