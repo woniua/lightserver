@@ -57,6 +57,14 @@
 /* TCP_DEV的mysql数据库支持 */
 //dev发送来的数据存储进mysql数据库,0:不支持; 1:支持
 #define  CFG_EN_TCP_DEV_MYSQL                    1
+//dev设备连接数据库的地址
+#define  CFG_TCP_DEV_MYSQL_HOST                  "localhost"
+//dev设备连接数据库的用户名
+#define  CFG_TCP_DEV_MYSQL_USER                  "root"
+//dev设备连接数据库的密码
+#define  CFG_TCP_DEV_MYSQL_PASSWORD              "123456"
+//dev设备连接数据库后使用的缺省数据库名
+#define  CFG_TCP_DEV_MYSQL_DATABASE              "default"
 
 /* 数据回显支持 */
 //TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上响应一帧数据到该设备,0:不支持; 1:支持

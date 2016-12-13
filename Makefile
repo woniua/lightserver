@@ -1,6 +1,6 @@
 SRC     = *.c *.h
 TARGET  = lightserver
-LIB     = -levent -lpthread -lcrypto
+LIB     = -levent -lpthread -lcrypto -lmysqlclient
 
 $(TARGET):$(SRC)
 	gcc -o $(TARGET) $(SRC) $(LIB)

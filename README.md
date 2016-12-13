@@ -13,8 +13,10 @@ lightserver提供公共的网络层处理逻辑，使得开发人员将更多精
 2.lightserver提供的功能
 ====================
 lightserver提供以下功能：
-- 轻量的转发服务器
+- 功能可配置
+- 轻量的转发服务器(向一个或多个转发或广播)
 - 轻量的回显服务器
+- 满足条件后服务器向一个或多个客户端做数据推送
 - client活动日志记录
 - 简单的web端client连接监控与查看
 lightserver采用libevent作为网络驱动库，http协议处理采用http-parser，设计client端最

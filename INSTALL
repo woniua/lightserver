@@ -1,4 +1,4 @@
-1.安装libevent
+1.libevent环境的准备
 ====================
   (1).下载libevent
       登录github，下载Libevent-release-2.0.22-stable
@@ -13,13 +13,24 @@
       $ make
       $ make verify   #(optional)
       $ sudo make install
-2.编译lightserver
-====================
-  $ make
+  (4).编译支持
+      编译时加上链接库 -levent
 
-1.OpenSSL环境的准备
+2.OpenSSL环境的准备
 ====================
   (1).安装openssl和相关库
       $ sudo apt-get install openssl libssl-dev
   (2).编译支持
       编译时加上链接库 -lcrypto
+
+3.MYSQL环境的准备
+====================
+  (1).安装MYSQL和相关库
+      $ sudo apt-get install mysql-server mysql++-dev
+      $ sudo apt-get install libmysqlclient-dev
+  (2).编译支持
+      编译时加上链接库 -lmysqlclient
+
+4.编译lightserver
+====================
+  $ make
