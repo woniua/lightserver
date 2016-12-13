@@ -1,6 +1,6 @@
-SRC     = *.c ../../list.c
-TARGET  = listTest
-LIB     =
+SRC     = *.c ../../../aes_options.c
+TARGET  = aesTest
+LIB     = -lcrypto
 
 $(TARGET):$(SRC)
 	gcc -o $(TARGET) $(SRC) $(LIB)
