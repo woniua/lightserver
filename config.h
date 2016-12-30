@@ -11,6 +11,12 @@
 #define  CFG_TCP_DEV_PORT                        8899
 #define  CFG_TCP_MONITOR_PORT                    8900
 
+/* MYSQL连接信息 */
+#define  CFG_MYSQL_HOST                          "localhost"
+#define  CFG_MYSQL_USER                          "root"
+#define  CFG_MYSQL_PASSWORD                      "123456"
+#define  CFG_MYSQL_DATABASE                      "mysql"
+
 /* TCP_DEV socket读写超时时间 */
 #define  CFG_TCP_DEV_TIMEOUT_READ_S              5//秒
 #define  CFG_TCP_DEV_TIMEOUT_READ_US             0//微秒
@@ -40,13 +46,38 @@
 /* 读水位配置 */
 //当bufferevent从socket接收到的数据字节数达到或超过此值时，将出发读数据回调函数，0表示有数据
 //立即触发读数据回调函数
-#define  CFG_SYS_TCP_DEV_READ_LOWMARK            5
-#define  CFG_SYS_TCP_MONITOR_READ_LOWMARK        5
+#define  CFG_TCP_DEV_READ_LOWMARK                5
+#define  CFG_TCP_MONITOR_READ_LOWMARK            5
 //当socket接收数据的速度大于读取数据的速度时，缓冲区剩余的字节数大于此值时，bufferevent将停止
 //从socket获取数据，低于此值时继续从socket获取数据，0表示此值无限大，bufferevent不会停止从
 //soket获取数据
-#define  CFG_SYS_TCP_DEV_READ_HIGHMARK           0
-#define  CFG_SYS_TCP_MONITOR_READ_HIGHMARK       0
+#define  CFG_TCP_DEV_READ_HIGHMARK               0
+#define  CFG_TCP_MONITOR_READ_HIGHMARK           0
+
+/*----------------------------------功能配置项----------------------------------*/
+/* 日志记录支持 */
+//日志信息打印到屏幕，对所有日志类型有效，0:不支持; 1:支持
+#define  CFG_EN_LOG_PRINT                        1
+//日志信息记录到文件，对所有日志类型有效，0:不支持; 1:支持
+#define  CFG_EN_LOG_RECORD                       1
+//网络客户端连接到服务器的信息记录，0:不支持; 1:支持
+#define  CFG_EN_LOG_CONNECT                      1
+//网络客户端从服务器断开连接的信息记录，0:不支持; 1:支持
+#define  CFG_EN_LOG_DISCONNECT                   1
+//网络客户端的接收信息以字符串的形式记录，0:不支持; 1:支持
+//非调试状态建议关闭。
+#define  CFG_EN_LOG_RECV_STRING                  1
+//网络客户端的发送信息以字符串的形式记录，0:不支持; 1:支持
+//非调试状态建议关闭。
+#define  CFG_EN_LOG_SEND_STRING                  1
+//网络客户端的接收信息以十六进制的形式记录，0:不支持; 1:支持
+//非调试状态建议关闭。
+#define  CFG_EN_LOG_RECV_HEX                     1
+//网络客户端的发送信息以十六进制的形式记录，0:不支持; 1:支持
+//非调试状态建议关闭。
+#define  CFG_EN_LOG_SEND_HEX                     1
+//服务器运行的错误的信息记录，0:不支持; 1:支持
+#define  CFG_EN_LOG_ERROR                        1
 
 /* OpenSSL传输加密支持 */
 //TCP socket的OpenSSL的加密传输,0:不支持; 1:支持
@@ -57,14 +88,6 @@
 /* TCP_DEV的mysql数据库支持 */
 //dev发送来的数据存储进mysql数据库,0:不支持; 1:支持
 #define  CFG_EN_TCP_DEV_MYSQL                    1
-//dev设备连接数据库的地址
-#define  CFG_TCP_DEV_MYSQL_HOST                  "localhost"
-//dev设备连接数据库的用户名
-#define  CFG_TCP_DEV_MYSQL_USER                  "root"
-//dev设备连接数据库的密码
-#define  CFG_TCP_DEV_MYSQL_PASSWORD              "123456"
-//dev设备连接数据库后使用的缺省数据库名
-#define  CFG_TCP_DEV_MYSQL_DATABASE              "default"
 
 /* 数据回显支持 */
 //TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上响应一帧数据到该设备,0:不支持; 1:支持

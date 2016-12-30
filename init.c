@@ -2,12 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "list.h"
 #include "listen_event.h"
 #include "http_event.h"
 #include "tcp_dev_event.h"
 #include "tcp_monitor_event.h"
+#include "mysql_options.h"
 #include "aes_options.h"
+#include "log_options.h"
+#include "list.h"
 #include "config.h"
 
 int main(int argc, char const *argv[])

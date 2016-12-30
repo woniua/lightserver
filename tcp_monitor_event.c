@@ -14,7 +14,7 @@
 void bev_tcp_monitor_read_cb(struct bufferevent* bev, void* ctx)
 {
   char data[200]= {0};
-  char senddata[100] ="Hello I'm tcp-monitor!!!";
+  char senddata[100] ="Hello I'm tcp-monitor!!!\n";
   uint32_t length;
   struct evbuffer* tmp = evbuffer_new();
   if(!tmp) return;
@@ -44,8 +44,7 @@ void* tcp_monitor_event_thread_process(void* arg)
     exit(-1);
   }
 
-  while(1)
-  {
+  while(1){
     event_base_dispatch(tcp_monitor_event_arg.tcp_eventbase);
     sleep(1);
   }
