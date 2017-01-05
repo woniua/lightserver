@@ -23,7 +23,7 @@
 void listener_http_cb(struct evconnlistener* listener, evutil_socket_t new_socket_fd,\
                       struct sockaddr* saddr, int socklen, void* arg)
 {
-  nodedata_t nodedata;
+  nodedata_t nodedata = {0};
 
   //设置socket为非阻塞
   evutil_make_socket_nonblocking(new_socket_fd);
@@ -33,14 +33,14 @@ void listener_http_cb(struct evconnlistener* listener, evutil_socket_t new_socke
   //HTTP连接信息插入链表
   list_insert_nodedata(&http_head, 1, nodedata);
   //HTTP客户端连接日志信息记录
-  log_handle(LOG_TYPE_CONNECT, new_socket_fd, CFG_HTTP_PORT, "connect success.", 0);
+  log_handle(LOG_TYPE_CONNECT, CFG_HTTP_PORT, new_socket_fd, "connect success.", 0);
 }
 
 void listener_tcp_dev_cb(struct evconnlistener* listener, \
                          evutil_socket_t new_socket_fd, \
                          struct sockaddr* saddr, int socklen, void* arg)
 {
-  nodedata_t          nodedata;
+  nodedata_t          nodedata = {0};
   struct timeval      timeout_read  = {CFG_TCP_DEV_TIMEOUT_READ_S , \
                                        CFG_TCP_DEV_TIMEOUT_READ_US};
   struct timeval      timeout_write = {CFG_TCP_DEV_TIMEOUT_WRITE_S, \
@@ -76,7 +76,7 @@ void listener_tcp_dev_cb(struct evconnlistener* listener, \
   //TCP_DEV连接信息插入链表
   list_insert_nodedata(&tcp_dev_head, 1, nodedata);
   //客户端连接日志信息记录
-  log_handle(LOG_TYPE_CONNECT, new_socket_fd, CFG_TCP_DEV_PORT, "connect success.", 0);
+  log_handle(LOG_TYPE_CONNECT, CFG_TCP_DEV_PORT, new_socket_fd, "connect success.", 0);
 }
 
 void listener_tcp_monitor_cb(struct evconnlistener* listener, \
@@ -116,7 +116,7 @@ void listener_tcp_monitor_cb(struct evconnlistener* listener, \
   //TCP_MONITOR连接信息插入链表
   list_insert_nodedata(&tcp_monitor_head, 1, nodedata);
   //客户端连接日志信息记录
-  log_handle(LOG_TYPE_CONNECT, new_socket_fd, CFG_TCP_MONITOR_PORT, "connect success.", 0);
+  log_handle(LOG_TYPE_CONNECT, CFG_TCP_MONITOR_PORT, new_socket_fd, "connect success.", 0);
 }
 
 void listen_event_handle(void)

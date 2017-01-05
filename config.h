@@ -55,29 +55,44 @@
 #define  CFG_TCP_MONITOR_READ_HIGHMARK           0
 
 /*----------------------------------功能配置项----------------------------------*/
+/* 身份认证支持 */
+//身份认证支持被打开后,客户端成功连接到服务器后发送的第一帧数据被认为是身份认证数据帧,客户端的身
+//份信息以字符串的形式表示,存储于链表中的name元素中, 0:不支持; 1:支持
+#define  CFG_EN_TCP_DEV_ID_AUTH                  0
+#define  CFG_EN_TCP_MONITOR_ID_AUTH              0
+
 /* 日志记录支持 */
 //日志信息打印到屏幕，对所有日志类型有效，0:不支持; 1:支持
-#define  CFG_EN_LOG_PRINT                        1
+#define  CFG_EN_TCP_DEV_LOG_PRINT                1
+#define  CFG_EN_TCP_MONITOR_LOG_PRINT            1
 //日志信息记录到文件，对所有日志类型有效，0:不支持; 1:支持
-#define  CFG_EN_LOG_RECORD                       1
+#define  CFG_EN_TCP_DEV_LOG_RECORD               1
+#define  CFG_EN_TCP_MONITOR_LOG_RECORD           1
 //网络客户端连接到服务器的信息记录，0:不支持; 1:支持
-#define  CFG_EN_LOG_CONNECT                      1
+#define  CFG_EN_TCP_DEV_LOG_TYPE_CONNECT         1
+#define  CFG_EN_TCP_MONITOR_LOG_TYPE_CONNECT     1
 //网络客户端从服务器断开连接的信息记录，0:不支持; 1:支持
-#define  CFG_EN_LOG_DISCONNECT                   1
+#define  CFG_EN_TCP_DEV_LOG_TYPE_DISCONNECT      1
+#define  CFG_EN_TCP_MONITOR_LOG_TYPE_DISCONNECT  1
 //网络客户端的接收信息以字符串的形式记录，0:不支持; 1:支持
 //非调试状态建议关闭。
-#define  CFG_EN_LOG_RECV_STRING                  1
+#define  CFG_EN_TCP_DEV_LOG_TYPE_RECV_STRING     1
+#define  CFG_EN_TCP_MONITOR_LOG_TYPE_RECV_STRING 1
 //网络客户端的发送信息以字符串的形式记录，0:不支持; 1:支持
 //非调试状态建议关闭。
-#define  CFG_EN_LOG_SEND_STRING                  1
+#define  CFG_EN_TCP_DEV_LOG_TYPE_SEND_STRING     1
+#define  CFG_EN_TCP_MONITOR_LOG_TYPE_SEND_STRING 1
 //网络客户端的接收信息以十六进制的形式记录，0:不支持; 1:支持
 //非调试状态建议关闭。
-#define  CFG_EN_LOG_RECV_HEX                     1
+#define  CFG_EN_TCP_DEV_LOG_TYPE_RECV_HEX        1
+#define  CFG_EN_TCP_MONITOR_LOG_TYPE_RECV_HEX    1
 //网络客户端的发送信息以十六进制的形式记录，0:不支持; 1:支持
 //非调试状态建议关闭。
-#define  CFG_EN_LOG_SEND_HEX                     1
+#define  CFG_EN_TCP_DEV_LOG_TYPE_SEND_HEX        1
+#define  CFG_EN_TCP_MONITOR_LOG_TYPE_SEND_HEX    1
 //服务器运行的错误的信息记录，0:不支持; 1:支持
-#define  CFG_EN_LOG_ERROR                        1
+#define  CFG_EN_TCP_DEV_LOG_TYPE_ERROR           1
+#define  CFG_EN_TCP_MONITOR_LOG_TYPE_ERROR       1
 
 /* OpenSSL传输加密支持 */
 //TCP socket的OpenSSL的加密传输,0:不支持; 1:支持

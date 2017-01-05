@@ -33,7 +33,7 @@ void bev_tcp_dev_read_cb(struct bufferevent* bev, void* ctx)
 void bev_tcp_dev_event_cb(struct bufferevent* bev, short events, void* ctx)
 {
   if (events &  BEV_EVENT_CONNECTED){
-    printf("event cb1111111111111111111111111111111111111\n");
+    printf("event cb1111111111111111111111111\n");
   }else{
     printf("123456:0x%x\n",events);
   }

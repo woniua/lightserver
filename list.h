@@ -37,7 +37,7 @@ typedef struct node{
 /* 定义链表头结点 */
 typedef struct{
   node_t*   node;
-  int       length;    //链表长度
+  int32_t   length;    //链表长度
 }head_t;
 EXT_LIST head_t http_head;
 EXT_LIST head_t tcp_dev_head;

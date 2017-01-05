@@ -20,6 +20,9 @@ int main(int argc, char const *argv[])
   //打印libevent版本信息
   printf("Used libevent version: %s\n", event_get_version());
 
+  //建立日志路径
+  system("mkdir -p log/dev mkdir -p log/monitor");
+  
   //建立存储连接信息的链表
   list_create(&http_head, 0);
   list_create(&tcp_dev_head,  0);
