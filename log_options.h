@@ -30,7 +30,7 @@ typedef struct{
   int8_t  prompt[64];        //日志类型的提示
   int8_t  msg[2048];         //日志的描述
   int8_t  record_file[256];  //记录日志的文件路径
-}record_t;
+}log_record_t;
 
 /* 公有函数声明 */
 //msg_len:取值为零时表示此参数无意义

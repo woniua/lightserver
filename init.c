@@ -14,6 +14,8 @@
 
 int main(int argc, char const *argv[])
 {
+  MYSQL* mysql_fd = mysql_connect_init();
+  mysql_demo_create_table(mysql_fd);
   //打印lightserver版本信息
   printf("Lightserver: %d.%d.%d\n",MAJOR_VERSION,MINOR_VERSION,REVISION_VERSION);
 
@@ -22,7 +24,7 @@ int main(int argc, char const *argv[])
 
   //建立日志路径
   system("mkdir -p log/dev mkdir -p log/monitor");
-  
+
   //建立存储连接信息的链表
   list_create(&http_head, 0);
   list_create(&tcp_dev_head,  0);

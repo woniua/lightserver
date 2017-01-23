@@ -193,7 +193,7 @@ static void get_record_msg(log_type_t log_type, uint32_t port_type, const int8_t
   }
 }
 
-static void log_print(uint32_t port_type, record_t record)
+static void log_print(uint32_t port_type, log_record_t record)
 {
   if((port_type == CFG_TCP_DEV_PORT)&&(CFG_EN_TCP_DEV_LOG_PRINT == 1)){
     printf("%s %s %s %s\n", record.datetime, record.name, record.prompt, record.msg);
@@ -203,10 +203,10 @@ static void log_print(uint32_t port_type, record_t record)
   }
 }
 
-static void log_record(uint32_t port_type, record_t record)
+static void log_record(uint32_t port_type, log_record_t record)
 {
   FILE*       fp;
-  int8_t      record_buf[sizeof(record_t)+128];
+  int8_t      record_buf[sizeof(log_record_t)+128];
 
   if((port_type == CFG_TCP_DEV_PORT)&&(CFG_EN_TCP_DEV_LOG_RECORD == 1)){
     sprintf(record.record_file, "log/dev/%s.txt", record.name);
@@ -238,8 +238,8 @@ static void log_record(uint32_t port_type, record_t record)
 
 static void log_connect(log_type_t log_type, uint32_t port_type, int32_t fd, const int8_t* msg, uint32_t msg_len)
 {
-  record_t    record   = {0};
-  nodedata_t  nodedata = {0};
+  log_record_t  record   = {0};
+  nodedata_t    nodedata = {0};
 
   if(-1 == get_nodedata(port_type, fd, &nodedata))return;
   current_date_format(record.datetime);
@@ -254,8 +254,8 @@ static void log_connect(log_type_t log_type, uint32_t port_type, int32_t fd, con
 
 static void log_disconnect(log_type_t log_type, uint32_t port_type, int32_t fd, const int8_t* msg, uint32_t msg_len)
 {
-  record_t    record   = {0};
-  nodedata_t  nodedata = {0};
+  log_record_t  record   = {0};
+  nodedata_t    nodedata = {0};
 
   if(-1 == get_nodedata(port_type, fd, &nodedata))return;
   current_date_format(record.datetime);
@@ -270,8 +270,8 @@ static void log_disconnect(log_type_t log_type, uint32_t port_type, int32_t fd, 
 
 static void log_recv_string(log_type_t log_type, uint32_t port_type, int32_t fd, const int8_t* msg, uint32_t msg_len)
 {
-  record_t    record   = {0};
-  nodedata_t  nodedata = {0};
+  log_record_t  record   = {0};
+  nodedata_t    nodedata = {0};
 
   if(-1 == get_nodedata(port_type, fd, &nodedata))return;
   current_date_format(record.datetime);
@@ -286,8 +286,8 @@ static void log_recv_string(log_type_t log_type, uint32_t port_type, int32_t fd,
 
 static void log_send_string(log_type_t log_type, uint32_t port_type, int32_t fd, const int8_t* msg, uint32_t msg_len)
 {
-  record_t    record   = {0};
-  nodedata_t  nodedata = {0};
+  log_record_t  record   = {0};
+  nodedata_t    nodedata = {0};
 
   if(-1 == get_nodedata(port_type, fd, &nodedata))return;
   current_date_format(record.datetime);
@@ -302,7 +302,7 @@ static void log_send_string(log_type_t log_type, uint32_t port_type, int32_t fd,
 
 static void log_recv_hex(log_type_t log_type, uint32_t port_type, int32_t fd, const int8_t* msg, uint32_t msg_len)
 {
-  record_t    record   = {0};
+  log_record_t    record   = {0};
   nodedata_t  nodedata = {0};
 
   if(-1 == get_nodedata(port_type, fd, &nodedata))return;
@@ -318,8 +318,8 @@ static void log_recv_hex(log_type_t log_type, uint32_t port_type, int32_t fd, co
 
 static void log_send_hex(log_type_t log_type, uint32_t port_type, int32_t fd, const int8_t* msg, uint32_t msg_len)
 {
-  record_t    record   = {0};
-  nodedata_t  nodedata = {0};
+  log_record_t  record   = {0};
+  nodedata_t    nodedata = {0};
 
   if(-1 == get_nodedata(port_type, fd, &nodedata))return;
   current_date_format(record.datetime);
@@ -334,8 +334,8 @@ static void log_send_hex(log_type_t log_type, uint32_t port_type, int32_t fd, co
 
 static void log_error(log_type_t log_type, uint32_t port_type, int32_t fd, const int8_t* msg, uint32_t msg_len)
 {
-  record_t    record   = {0};
-  nodedata_t  nodedata = {0};
+  log_record_t   record   = {0};
+  nodedata_t     nodedata = {0};
 
   if(-1 == get_nodedata(port_type, fd, &nodedata))return;
   current_date_format(record.datetime);

@@ -15,7 +15,7 @@
 #define  CFG_MYSQL_HOST                          "localhost"
 #define  CFG_MYSQL_USER                          "root"
 #define  CFG_MYSQL_PASSWORD                      "123456"
-#define  CFG_MYSQL_DATABASE                      "mysql"
+#define  CFG_MYSQL_DATABASE                      "lightserver"
 
 /* TCP_DEV socket读写超时时间 */
 #define  CFG_TCP_DEV_TIMEOUT_READ_S              5//秒
