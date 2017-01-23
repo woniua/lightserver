@@ -30,7 +30,7 @@ listStatus  list_create(head_t* head, uint32_t n)
   return SUCCESS;
 }
 
-listStatus  list_clear(head_t* head)
+void  list_clear(head_t* head)
 {
   node_t* p = NULL;
   node_t* q = NULL;
@@ -44,7 +44,6 @@ listStatus  list_clear(head_t* head)
     head ->length--;
   }
   head ->node ->next = NULL;
-  return SUCCESS;
 }
 
 listStatus  list_is_empty(head_t* head)
@@ -55,19 +54,9 @@ listStatus  list_is_empty(head_t* head)
     return ERROR;
 }
 
-listStatus  list_length(head_t* head, uint32_t* length)
+uint32_t  list_get_length(head_t* head)
 {
-  node_t      *p  = NULL;
-  uint32_t    cnt = 0;
-
-  p = head ->node ->next;
-  while(p)
-  {
-    p = p ->next;
-    cnt++;
-  }
-  *length = cnt;
-  return SUCCESS;
+  return head ->length;
 }
 
 listStatus  list_get_nodedata(head_t* head, uint32_t index, nodedata_t* nodedata)
@@ -87,7 +76,7 @@ listStatus  list_get_nodedata(head_t* head, uint32_t index, nodedata_t* nodedata
   return SUCCESS;
 }
 
-listStatus  list_check_nodedata(head_t* head, uint32_t* index, nodedata_t nodedata)
+int32_t  list_check_nodedata(head_t* head, int32_t connect_fd, nodedata_t* nodedata)
 {
   node_t      *p  = NULL;
   uint32_t    cnt = 1;
@@ -98,15 +87,15 @@ listStatus  list_check_nodedata(head_t* head, uint32_t* index, nodedata_t nodeda
   {
     //判断给出的元素与链表当前节点数据区的值是否相等
     result = memcmp((const void*)&nodedata, (const void*)&(p ->data), sizeof(nodedata_t));
-    if(!result){
-      *index = cnt;
-      return SUCCESS;
+    if(connect_fd == p ->data.connect_fd){
+      memcpy((void*)nodedata, (const void*)&(p ->data), sizeof(nodedata_t));
+      return cnt;
     }
     p = p ->next;
     cnt++;
   }
 
-  return ERROR;
+  return -1;
 }
 
 listStatus  list_insert_nodedata(head_t* head, uint32_t index, nodedata_t nodedata)

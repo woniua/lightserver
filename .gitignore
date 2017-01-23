@@ -34,3 +34,6 @@
 
 #bulid target
 lightserver
+
+#log
+*.txt
