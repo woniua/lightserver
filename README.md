@@ -2,6 +2,7 @@
 ====================
 1.为什么lightserver
 2.lightserver提供的功能
+3.日志文件的命名规则
 
 
 1.为什么lightserver
@@ -21,3 +22,6 @@ lightserver提供以下功能：
 - 简单的web端client连接监控与查看
 lightserver采用libevent作为网络驱动库，http协议处理采用http-parser，设计client端最
 大并发数10000连接，web端访问最大并发数1000连接。设计架构采用libevent+多线程。
+
+3.日志文件的命名规则
+====================

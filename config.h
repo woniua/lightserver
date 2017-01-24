@@ -37,7 +37,7 @@
 
 /* 并发数限制 */
 //web端HTTP访问并发数限制
-#define  CFG_HTTP_CONCURRENCY_NUM                1000
+#define  CFG_HTTP_CONCURRENCY_NUM                100
 //实际的TCP终端运行设备并发数限制
 #define  CFG_TCP_DEV_CONCURRENCY_NUM             1000
 //CS架构的终端监控软件(如桌面软件,APP等)并发数限制

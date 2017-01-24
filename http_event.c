@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 #include <pthread.h>
 #include <event2/event.h>
 
@@ -12,20 +13,21 @@
 
 void* http_event_thread_process(void* arg)
 {
-  struct event_base*      http_base;
+  struct event_base*      eventbase;
 
-  http_base = http_event_arg.http_base;
-  http_base = event_base_new();
-  if(!http_base){
+  eventbase = http_event_arg.eventbase;
+  eventbase = event_base_new();
+  if(!eventbase){
     fprintf(stderr, "Could not initialize libevent!\n");
     exit(-1);
   }
 
-  while(1)
-  {
+  while(1){
     printf("hello http.\n");
+    //event_base_dispatch(http_event_arg.eventbase);
     sleep(1);
   }
+  event_base_free(http_event_arg.eventbase);
 }
 
 void http_event_thread_create(evutil_socket_t socket_fd)

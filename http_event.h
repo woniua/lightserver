@@ -13,7 +13,7 @@
 #include <event2/listener.h>
 
 typedef struct{
-  struct event_base*      http_base;//http事件base
+  struct event_base*      eventbase;//http事件base
 
 }http_event_arg_t;
 EXT_HTTP_EVENT http_event_arg_t http_event_arg;

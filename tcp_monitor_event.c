@@ -4,11 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 #include <pthread.h>
 #include <event2/event.h>
 #include <event2/util.h>
 
 #include "tcp_monitor_event.h"
+#include "log_options.h"
+#include "list.h"
 #include "config.h"
 
 void bev_tcp_monitor_read_cb(struct bufferevent* bev, void* ctx)
@@ -31,24 +34,70 @@ void bev_tcp_monitor_read_cb(struct bufferevent* bev, void* ctx)
 
 void bev_tcp_monitor_event_cb(struct bufferevent* bev, short events, void* ctx)
 {
-  printf("event cb\n");
-  //bufferevent_free(bev);
+  nodedata_t  nodedata_tmp = {0};
+  char        tmp[512]     = {0};
+  int32_t     index        = 0;
+
+  if(events &  BEV_EVENT_READING){//读数据过程中发生错误
+    if(events &  BEV_EVENT_TIMEOUT){
+      log_handle(LOG_TYPE_DISCONNECT, CFG_TCP_MONITOR_PORT, bufferevent_getfd(bev), "<reading> time out.", 0);
+    }
+    else if(events &  BEV_EVENT_EOF){
+      log_handle(LOG_TYPE_DISCONNECT, CFG_TCP_MONITOR_PORT, bufferevent_getfd(bev), "<reading> reached end-of-file.", 0);
+    }
+    else if(events &  BEV_EVENT_ERROR){
+      memset(tmp, 0, sizeof(tmp)/sizeof(tmp[0]));
+      sprintf(tmp,"<writing> %s", strerror(EVUTIL_SOCKET_ERROR()));
+      log_handle(LOG_TYPE_DISCONNECT, CFG_TCP_MONITOR_PORT, bufferevent_getfd(bev), tmp, 0);
+    }
+    else{
+      fprintf(stderr, "unkown reading error type on function '%s'\n", __FUNCTION__);
+      return;
+    }
+  }
+  else if(events &  BEV_EVENT_WRITING){//写数据过程中发生错误
+    if(events &  BEV_EVENT_TIMEOUT){
+      log_handle(LOG_TYPE_DISCONNECT, CFG_TCP_MONITOR_PORT, bufferevent_getfd(bev), "<writing> time out.", 0);
+    }
+    else if(events &  BEV_EVENT_EOF){
+      log_handle(LOG_TYPE_DISCONNECT, CFG_TCP_MONITOR_PORT, bufferevent_getfd(bev), "<writing> reached end-of-file.", 0);
+    }
+    else if(events &  BEV_EVENT_ERROR){
+      memset(tmp, 0, sizeof(tmp)/sizeof(tmp[0]));
+      sprintf(tmp,"<writing> %s", strerror(EVUTIL_SOCKET_ERROR()));
+      log_handle(LOG_TYPE_DISCONNECT, CFG_TCP_MONITOR_PORT, bufferevent_getfd(bev), tmp, 0);
+    }
+    else{
+      fprintf(stderr, "unkown writing error type on function '%s'\n", __FUNCTION__);
+      return;
+    }
+  }
+  else{
+    fprintf(stderr, "unkown error type on function '%s'\n", __FUNCTION__);
+    return;
+  }
+
+  //释放bufferevent资源，释放链表资源,关闭网络连接描述符
+  index = list_check_nodedata(&tcp_monitor_head, bufferevent_getfd(bev), &nodedata_tmp);
+  if(index != -1){
+    list_delete_nodedata(&tcp_monitor_head, index, &nodedata_tmp);
+  }
+  bufferevent_free(bev);
 }
 
 void* tcp_monitor_event_thread_process(void* arg)
 {
-  evutil_socket_t socket_fd = *(evutil_socket_t*)arg;
-  tcp_monitor_event_arg.tcp_eventbase = event_base_new();
-  if(!tcp_monitor_event_arg.tcp_eventbase){
+  tcp_monitor_event_arg.eventbase = event_base_new();
+  if(!tcp_monitor_event_arg.eventbase){
     fprintf(stderr, "Could not initialize libevent!\n");
     exit(-1);
   }
 
   while(1){
-    event_base_dispatch(tcp_monitor_event_arg.tcp_eventbase);
+    event_base_dispatch(tcp_monitor_event_arg.eventbase);
     sleep(1);
   }
-  event_base_free(tcp_monitor_event_arg.tcp_eventbase);
+  event_base_free(tcp_monitor_event_arg.eventbase);
 }
 
 void tcp_monitor_event_thread_create(evutil_socket_t socket_fd)

@@ -12,6 +12,7 @@
 #include "list.h"
 #include "config.h"
 
+
 int main(int argc, char const *argv[])
 {
   MYSQL* mysql_fd = mysql_connect_init();
@@ -23,7 +24,7 @@ int main(int argc, char const *argv[])
   printf("Used libevent version: %s\n", event_get_version());
 
   //建立日志路径
-  system("mkdir -p log/dev mkdir -p log/monitor");
+  system("mkdir -p log/dev -p log/monitor");
 
   //建立存储连接信息的链表
   list_create(&http_head, 0);

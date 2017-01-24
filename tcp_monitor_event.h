@@ -15,7 +15,7 @@
 #include <event2/listener.h>
 
 typedef struct{
-  struct event_base*      tcp_eventbase;//tcp读事件base
+  struct event_base*      eventbase;//tcp monitor base
 
 }tcp_monitor_event_arg_t;
 EXT_TCP_MONITOR_EVENT tcp_monitor_event_arg_t tcp_monitor_event_arg;

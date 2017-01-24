@@ -53,7 +53,7 @@ void listener_tcp_dev_cb(struct evconnlistener* listener, \
 #if(CFG_EN_TCP_DEV_MYSQL == 1)
   nodedata.mysql_fd     = mysql_connect_init();
 #endif
-  nodedata.socket_bufev = bufferevent_socket_new(tcp_dev_event_arg.tcp_eventbase, \
+  nodedata.socket_bufev = bufferevent_socket_new(tcp_dev_event_arg.eventbase, \
                                                  new_socket_fd, \
                                                  BEV_OPT_CLOSE_ON_FREE);
   if(!nodedata.socket_bufev){
@@ -74,9 +74,15 @@ void listener_tcp_dev_cb(struct evconnlistener* listener, \
                            CFG_TCP_DEV_READ_HIGHMARK);
   bufferevent_enable(nodedata.socket_bufev, EV_READ|EV_WRITE);
   //TCP_DEV连接信息插入链表
-  list_insert_nodedata(&tcp_dev_head, 1, nodedata);
-  //客户端连接日志信息记录
-  log_handle(LOG_TYPE_CONNECT, CFG_TCP_DEV_PORT, new_socket_fd, "connect success.", 0);
+  if(list_get_length(&tcp_dev_head) < CFG_TCP_DEV_CONCURRENCY_NUM){
+    list_insert_nodedata(&tcp_dev_head, 1, nodedata);
+    //客户端连接日志信息记录
+    log_handle(LOG_TYPE_CONNECT, CFG_TCP_DEV_PORT, new_socket_fd, "connect success.", 0);
+  }
+  else{//连接数已达上限
+    log_handle(LOG_TYPE_DISCONNECT, CFG_TCP_DEV_PORT, new_socket_fd, "reached connection limit.", 0);
+    bufferevent_free(nodedata.socket_bufev);
+  }
 }
 
 void listener_tcp_monitor_cb(struct evconnlistener* listener, \
@@ -94,7 +100,7 @@ void listener_tcp_monitor_cb(struct evconnlistener* listener, \
   //saddr赋值
   memcpy((void*)&(nodedata.saddr), (const void*)saddr, sizeof(struct sockaddr));
   nodedata.connect_fd   = new_socket_fd;
-  nodedata.socket_bufev = bufferevent_socket_new(tcp_monitor_event_arg.tcp_eventbase, \
+  nodedata.socket_bufev = bufferevent_socket_new(tcp_monitor_event_arg.eventbase, \
                                                  new_socket_fd, \
                                                  BEV_OPT_CLOSE_ON_FREE);
   if(!nodedata.socket_bufev){
@@ -114,9 +120,15 @@ void listener_tcp_monitor_cb(struct evconnlistener* listener, \
                            CFG_TCP_MONITOR_READ_HIGHMARK);
   bufferevent_enable(nodedata.socket_bufev, EV_READ|EV_WRITE);
   //TCP_MONITOR连接信息插入链表
-  list_insert_nodedata(&tcp_monitor_head, 1, nodedata);
-  //客户端连接日志信息记录
-  log_handle(LOG_TYPE_CONNECT, CFG_TCP_MONITOR_PORT, new_socket_fd, "connect success.", 0);
+  if(list_get_length(&tcp_monitor_head) < CFG_TCP_MONITOR_CONCURRENCY_NUM){
+    list_insert_nodedata(&tcp_monitor_head, 1, nodedata);
+    //客户端连接日志信息记录
+    log_handle(LOG_TYPE_CONNECT, CFG_TCP_MONITOR_PORT, new_socket_fd, "connect success.", 0);
+  }
+  else{//连接数已达上限
+    log_handle(LOG_TYPE_DISCONNECT, CFG_TCP_MONITOR_PORT, new_socket_fd, "reached connection limit.", 0);
+    bufferevent_free(nodedata.socket_bufev);
+  }
 }
 
 void listen_event_handle(void)
