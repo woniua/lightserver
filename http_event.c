@@ -23,7 +23,7 @@ void* http_event_thread_process(void* arg)
   }
 
   while(1){
-    printf("hello http.\n");
+    //printf("hello http.\n");
     //event_base_dispatch(http_event_arg.eventbase);
     sleep(1);
   }

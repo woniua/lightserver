@@ -32,8 +32,12 @@
 /* TCP数据接收缓冲区长度 */
 //TCP_DEV数据接收缓冲区长度(字节)
 #define  CFG_TCP_DEV_READ_BUF_LEN                1024
+//TCP_DEV数据发送缓冲区长度(字节)
+#define  CFG_TCP_DEV_WRITE_BUF_LEN               1024
 //TCP_MONITOR数据接收缓冲区长度(字节)
 #define  CFG_TCP_MONITOR_READ_BUF_LEN            1024
+//TCP_MONITOR数据发送缓冲区长度(字节)
+#define  CFG_TCP_MONITOR_WRITE_BUF_LEN           1024
 
 /* 并发数限制 */
 //web端HTTP访问并发数限制
@@ -106,16 +110,16 @@
 
 /* 数据回显支持 */
 //TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上响应一帧数据到该设备,0:不支持; 1:支持
-#define  CFG_EN_TCP_DEV_ECHO                     1
+#define  CFG_EN_TCP_DEV_ACK                      1
 //TCP_MONITOR的设备向服务器发送完一帧数据后，服务器可以马上响应一帧数据到该设备,0:不支持; 1:支持
-#define  CFG_EN_TCP_MONITOR_ECHO                 1
+#define  CFG_EN_TCP_MONITOR_ACK                  1
 
 /* 数据转发支持 */
 //TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后发送到TCP_DEV
-//的某台在线设备,0:不支持; 1:支持
+//的某台或某几台在线设备,0:不支持; 1:支持
 #define  CFG_EN_TCP_DEV_FORWARD_DEV              1
 //TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后发送到TCP_MONITOR
-//的某台在线设备,0:不支持; 1:支持
+//的某台或某几台在线设备,0:不支持; 1:支持
 #define  CFG_EN_TCP_DEV_FORWARD_MONITOR          1
 //TCP_DEV的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后向TCP_DEV的其
 //它所有在线设备进行广播,0:不支持; 1:支持
@@ -124,10 +128,10 @@
 //的其它在线所有设备进行广播,0:不支持; 1:支持
 #define  CFG_EN_TCP_DEV_BROADCAST_MONITOR        1
 //TCP_MONITOR的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后发送到TCP_MONITOR
-//的某台在线设备,0:不支持; 1:支持
+//的某台或某几台在线设备,0:不支持; 1:支持
 #define  CFG_EN_TCP_MONITOR_FORWARD_MONITOR      1
 //TCP_MONITOR的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后发送到TCP_DEV
-//的某台在线设备,0:不支持; 1:支持
+//的某台或某几台在线设备,0:不支持; 1:支持
 #define  CFG_EN_TCP_MONITOR_FORWARD_DEV          1
 //TCP_MONITOR的设备向服务器发送完一帧数据后，服务器可以马上将该数据原样的或经过处理后向TCP_MONITOR
 //的其它所有在线设备进行广播,0:不支持; 1:支持

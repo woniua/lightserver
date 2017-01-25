@@ -196,10 +196,10 @@ static void get_record_msg(log_type_t log_type, uint32_t port_type, const int8_t
 static void log_print(uint32_t port_type, log_record_t record)
 {
   if((port_type == CFG_TCP_DEV_PORT)&&(CFG_EN_TCP_DEV_LOG_PRINT == 1)){
-    printf("%s %s %s %s\n", record.datetime, record.name, record.prompt, record.msg);
+    printf("%s %s %s %s\n\n", record.datetime, record.name, record.prompt, record.msg);
   }
   if((port_type == CFG_TCP_MONITOR_PORT)&&(CFG_EN_TCP_MONITOR_LOG_PRINT == 1)){
-    printf("%s %s %s %s\n", record.datetime, record.name, record.prompt, record.msg);
+    printf("%s %s %s %s\n\n", record.datetime, record.name, record.prompt, record.msg);
   }
 }
 
@@ -216,7 +216,7 @@ static void log_record(uint32_t port_type, log_record_t record)
       perror(" ");
       return;
     }
-    sprintf(record_buf, "%s %s %s %s\n", record.datetime, record.name, \
+    sprintf(record_buf, "%s %s %s %s\n\n", record.datetime, record.name, \
                                          record.prompt  , record.msg);
     fputs(record_buf, fp);
     fclose(fp);
@@ -229,7 +229,7 @@ static void log_record(uint32_t port_type, log_record_t record)
       perror(" ");
       return;
     }
-    sprintf(record_buf, "%s %s %s %s\n", record.datetime, record.name, \
+    sprintf(record_buf, "%s %s %s %s\n\n", record.datetime, record.name, \
                                          record.prompt  , record.msg);
     fputs(record_buf, fp);
     fclose(fp);

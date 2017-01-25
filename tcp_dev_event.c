@@ -28,6 +28,11 @@ void bev_tcp_dev_read_cb(struct bufferevent* bev, void* ctx)
   if(!evb_tmp) return;
 
   memset(read_buffer, 0, sizeof(read_buffer));
+  if(bufferevent_read_buffer(bev, evb_tmp)){
+    fprintf(stderr, "bufferevent_read_buffer error on function '%s'\n", __FUNCTION__);
+    evbuffer_free(evb_tmp);
+    return;
+  }
   read_length = evbuffer_remove(evb_tmp, read_buffer, sizeof(read_buffer));
   //TCP_DEV接收数据字符串形式日志记录
   log_handle(LOG_TYPE_RECV_STRING, CFG_TCP_DEV_PORT, bufferevent_getfd(bev), read_buffer, read_length);
