@@ -12,24 +12,40 @@
 #include "tcp_dev_event.h"
 #include "log_options.h"
 #include "list.h"
+#include "portable.h"
 #include "config.h"
+
+static uint8_t  read_buffer[CFG_TCP_DEV_READ_BUF_LEN];
+static uint8_t  write_buffer[CFG_TCP_DEV_WRITE_BUF_LEN];
 
 void bev_tcp_dev_read_cb(struct bufferevent* bev, void* ctx)
 {
-  char data[200]= {0};
-  char senddata[100] ="Hello I'm tcp-dev!!!\n";
-  uint32_t length;
-  struct evbuffer* tmp = evbuffer_new();
-  if(!tmp) return;
+  uint32_t         read_length  = 0;
+  uint32_t         write_length = 0;
+  struct evbuffer* evb_tmp      = NULL;
 
-  length = bufferevent_read_buffer(bev, tmp);
-  evbuffer_remove(tmp, data, sizeof(data));
-  printf("read cd:%d-%s\n",length, data);
+  evb_tmp = evbuffer_new();
+  if(!evb_tmp) return;
 
-  evbuffer_add(tmp, senddata, strlen(senddata));
-  evbuffer_write(tmp, bufferevent_getfd(bev));
-  printf("send : %s", senddata);
-  evbuffer_free(tmp);
+  memset(read_buffer, 0, sizeof(read_buffer));
+  read_length = evbuffer_remove(evb_tmp, read_buffer, sizeof(read_buffer));
+  //TCP_DEV接收数据字符串形式日志记录
+  log_handle(LOG_TYPE_RECV_STRING, CFG_TCP_DEV_PORT, bufferevent_getfd(bev), read_buffer, read_length);
+  //TCP_DEV接收数据十六进制形式日志记录
+  log_handle(LOG_TYPE_RECV_HEX, CFG_TCP_DEV_PORT, bufferevent_getfd(bev), read_buffer, read_length);
+#if(CFG_EN_TCP_DEV_ACK == 1)
+  evbuffer_add(evb_tmp, write_buffer, read_length);
+  portable_tcp_dev_ack_handle(read_buffer , read_length, write_buffer, &write_length);
+  evbuffer_add(evb_tmp, write_buffer, write_length);
+  evbuffer_write(evb_tmp, bufferevent_getfd(bev));
+  //TCP_DEV发送数据字符串形式日志记录
+  log_handle(LOG_TYPE_SEND_STRING, CFG_TCP_DEV_PORT, bufferevent_getfd(bev), write_buffer, write_length);
+  //TCP_DEV发送数据十六进制形式日志记录
+  log_handle(LOG_TYPE_SEND_HEX, CFG_TCP_DEV_PORT, bufferevent_getfd(bev), write_buffer, write_length);
+#endif
+
+
+  evbuffer_free(evb_tmp);
 }
 
 void bev_tcp_dev_event_cb(struct bufferevent* bev, short events, void* ctx)
